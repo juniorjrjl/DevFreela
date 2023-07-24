@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+    command: bash start-dev.sh
+    ports:
+      - "5001:5001"
+    networks:
+      - dev-freela-net
+
+networks:
+  dev-freela-net:
+    name: dev-freela-net
+    external: true
