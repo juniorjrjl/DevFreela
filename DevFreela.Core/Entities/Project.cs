@@ -37,6 +37,32 @@ namespace DevFreela.Core.Entities
 
         public List<ProjectComment> Comments { get; private set; }
 
+        public void Cancel()
+        {
+            if (Status != ProjectStatusEnum.CANCELED || Status != ProjectStatusEnum.FINISHED)
+            {
+                Status = ProjectStatusEnum.CANCELED;
+            }
+        }
+
+        public void Finish()
+        {
+            if (Status == ProjectStatusEnum.IN_PROGRESS)
+            {
+                Status = ProjectStatusEnum.FINISHED;
+                FinishedAt = DateTime.Now;
+            }
+        }
+
+        public void Start()
+        {
+            if (Status == ProjectStatusEnum.CREATED)
+            {
+                Status = ProjectStatusEnum.IN_PROGRESS;
+                StartedAt = DateTime.Now;
+            }
+        }
+
     }
 
 }
