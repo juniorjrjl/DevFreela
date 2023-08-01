@@ -1,4 +1,4 @@
-# Projeto DevFreela criado no curs Formação ASP.NET Core
+# Projeto DevFreela criado no curso Formação ASP.NET Core
 
 Api de freelancers
 
@@ -25,5 +25,5 @@ crie a network do container usando o seguinte comando:
 inicie a aplicação
 
 ```
-docker-compose up
+    docker-compose up
 ```

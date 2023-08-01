@@ -8,10 +8,13 @@ namespace DevFreela.Core.Entities
         {
             Description = description;
             CreatedAt = DateTime.Now;
+            UsersSkills = new List<UserSkill>();
         }
 
         public string Description { get; private set; }
 
         public DateTime CreatedAt { get; private set; }
+
+        public List<UserSkill> UsersSkills { get; private set; }
     }
 }

@@ -6,9 +6,20 @@ services:
       context: .
     environment:
       ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings_DevFreelaCs: Server=DB;database=DevFreela;User Id=sa;Password=Devfr33la#
     command: bash start-dev.sh
     ports:
       - "5001:5001"
+    networks:
+      - dev-freela-net
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-CU6-ubuntu-20.04
+    environment:
+      ACCEPT_EULA: Y
+      MSSQL_SA_PASSWORD: Devfr33la#
+      MSSQL_PID: Express
+    ports:
+      - "1433:1433"
     networks:
       - dev-freela-net
 

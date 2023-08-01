@@ -8,4 +8,6 @@ RUN mkdir $INSTALL_PATH
 
 WORKDIR $INSTALL_PATH
 
+RUN dotnet tool install --global dotnet-ef
+
 COPY . .
