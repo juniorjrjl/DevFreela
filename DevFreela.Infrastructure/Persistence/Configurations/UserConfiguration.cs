@@ -4,16 +4,19 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DevFreela.Infrastructure.Persistence.Configurations
 {
-    public class UserConfiguration : IEntityTypeConfiguration<User>
+    public class UserConfiguration : AbstractEntityTypeConfiguration<User>
     {
-        public void Configure(EntityTypeBuilder<User> builder)
+        public UserConfiguration() : base("USERS") { }
+
+        protected override void ConfigurePrimaryKey(EntityTypeBuilder<User> builder)
         {
+            builder.HasKey(p => p.Id);
+        }
 
-            builder.ToTable("USERS");
-
+        protected override void ConfigureColumnDefinition(EntityTypeBuilder<User> builder)
+        {
             builder.Property(p=> p.Id)
                 .HasColumnName("id");
-            builder.HasKey(p => p.Id);
 
             builder.Property(p=> p.Name)
                 .HasColumnName("name");
@@ -24,17 +27,20 @@ namespace DevFreela.Infrastructure.Persistence.Configurations
             builder.Property(p=> p.BirthDate)
                 .HasColumnName("bithdate");
 
-            builder.HasMany(p => p.UsersSkills)
-                .WithOne()
-                .HasForeignKey(p => p.UserId)
-                .OnDelete(DeleteBehavior.Restrict);
-
             builder.Property(p=> p.CreatedAt)
                 .HasColumnName("create_at");
 
             builder.Property(p=> p.Active)
                 .HasColumnName("active");
-
         }
+
+        protected override void ConfigureForeingKey(EntityTypeBuilder<User> builder)
+        {
+            builder.HasMany(p => p.UsersSkills)
+                .WithOne()
+                .HasForeignKey(p => p.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+        }
+
     }
 }

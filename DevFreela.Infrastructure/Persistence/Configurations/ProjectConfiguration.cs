@@ -4,13 +4,17 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DevFreela.Infrastructure.Persistence.Configurations
 {
-    public class ProjectConfiguration : IEntityTypeConfiguration<Project>
+    public class ProjectConfiguration : AbstractEntityTypeConfiguration<Project>
     {
-        public void Configure(EntityTypeBuilder<Project> builder)
+        public ProjectConfiguration() : base("PROJECTS") { }
+
+        protected override void ConfigurePrimaryKey(EntityTypeBuilder<Project> builder)
         {
-            builder.ToTable("PROJECTS");
-            
             builder.HasKey(p => p.Id);
+        }
+
+        protected override void ConfigureColumnDefinition(EntityTypeBuilder<Project> builder)
+        {
             builder.Property(p=> p.Id)
                 .HasColumnName("id");
 
@@ -22,17 +26,9 @@ namespace DevFreela.Infrastructure.Persistence.Configurations
 
             builder.Property(p=> p.FreelancerId)
                 .HasColumnName("freelancer_id");
-            builder.HasOne(p => p.Freelancer)
-                .WithMany(p => p.FreelancerProjects)
-                .HasForeignKey(p => p.FreelancerId)
-                .OnDelete(DeleteBehavior.Restrict);
 
             builder.Property(p=> p.ClientId)
                 .HasColumnName("client_id");
-            builder.HasOne(p => p.Client)
-                .WithMany(p => p.OwnedProjects)
-                .HasForeignKey(p => p.ClientId)
-                .OnDelete(DeleteBehavior.Restrict);
 
             builder.Property(p=> p.CreatedAt)
                 .HasColumnName("create_at");
@@ -52,7 +48,20 @@ namespace DevFreela.Infrastructure.Persistence.Configurations
 
             builder.Property(p=> p.Status)
                 .HasColumnName("status");
-
         }
+
+        protected override void ConfigureForeingKey(EntityTypeBuilder<Project> builder)
+        {
+            builder.HasOne(p => p.Freelancer)
+                .WithMany(p => p.FreelancerProjects)
+                .HasForeignKey(p => p.FreelancerId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(p => p.Client)
+                .WithMany(p => p.OwnedProjects)
+                .HasForeignKey(p => p.ClientId)
+                .OnDelete(DeleteBehavior.Restrict);
+        }
+
     }
 }

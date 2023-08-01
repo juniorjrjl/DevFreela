@@ -6,7 +6,7 @@ services:
       context: .
     environment:
       ASPNETCORE_ENVIRONMENT: Development
-      ConnectionStrings_DevFreelaCs: Server=DB;database=DevFreela;User Id=sa;Password=Devfr33la#
+      ConnectionStrings_DevFreelaCs: Server=DB;database=DevFreela;User Id=sa;Password=Devfr33la#;TrustServerCertificate=True
     command: bash start-dev.sh
     ports:
       - "5001:5001"

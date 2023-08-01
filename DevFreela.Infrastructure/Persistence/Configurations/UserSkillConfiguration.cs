@@ -4,19 +4,25 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DevFreela.Infrastructure.Persistence.Configurations
 {
-    public class UserSkillConfiguration : IEntityTypeConfiguration<UserSkill>
+    public class UserSkillConfiguration : AbstractEntityTypeConfiguration<UserSkill>
     {
-        public void Configure(EntityTypeBuilder<UserSkill> builder)
+        public UserSkillConfiguration() : base("USERS_SKILLS") { }
+
+        protected override void ConfigurePrimaryKey(EntityTypeBuilder<UserSkill> builder)
         {
+            builder.HasKey(p=> new { p.UserId, p.SkillId });
+        }
 
-            builder.ToTable("USERS_SKILLS");
-
-            builder.HasKey(p=> new {p.UserId, p.SkillId});
+        protected override void ConfigureColumnDefinition(EntityTypeBuilder<UserSkill> builder)
+        {
             builder.Property(p=> p.UserId)
                 .HasColumnName("user_id");
+
             builder.Property(p=> p.SkillId)
                 .HasColumnName("skill_id");
-
         }
+
+        protected override void ConfigureForeingKey(EntityTypeBuilder<UserSkill> builder) { }
+
     }
 }

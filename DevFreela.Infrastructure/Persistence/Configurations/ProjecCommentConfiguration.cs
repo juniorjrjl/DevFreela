@@ -4,15 +4,19 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DevFreela.Infrastructure.Persistence.Configurations
 {
-    public class ProjectCommentConfiguration : IEntityTypeConfiguration<ProjectComment>
+    public class ProjectCommentConfiguration : AbstractEntityTypeConfiguration<ProjectComment>
     {
-        public void Configure(EntityTypeBuilder<ProjectComment> builder)
-        {
-            builder.ToTable("PROJECTS_COMMENTS");
+        public ProjectCommentConfiguration() : base("PROJECTS_COMMENTS") { }
 
+        protected override void ConfigurePrimaryKey(EntityTypeBuilder<ProjectComment> builder)
+        {
+            builder.HasKey(p => p.Id);
+        }
+
+        protected override void ConfigureColumnDefinition(EntityTypeBuilder<ProjectComment> builder)
+        {
             builder.Property(p=> p.Id)
                 .HasColumnName("id");
-            builder.HasKey(p => p.Id);
 
             builder.Property(p=> p.Comment)
                 .HasColumnName("comment");
@@ -25,13 +29,17 @@ namespace DevFreela.Infrastructure.Persistence.Configurations
 
             builder.Property(p=> p.UserId)
                 .HasColumnName("user_id");
-            builder.HasOne(p => p.User)
-                .WithMany(p => p.Comments)
-                .HasForeignKey(p=> p.UserId);
 
             builder.Property(p=> p.CreatedAt)
                 .HasColumnName("create_at");
-
         }
+
+        protected override void ConfigureForeingKey(EntityTypeBuilder<ProjectComment> builder)
+        { 
+            builder.HasOne(p => p.User)
+                .WithMany(p => p.Comments)
+                .HasForeignKey(p=> p.UserId);
+        }
+
     }
 }
