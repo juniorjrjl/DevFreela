@@ -1,7 +1,5 @@
 
-using DevFreela.Application.InputModel;
 using DevFreela.Application.Services.Interfaces;
-using DevFreela.Application.ViewModel;
 using DevFreela.Core.Entities;
 using DevFreela.Infrastructure.Persistence;
 
@@ -18,45 +16,62 @@ namespace DevFreela.Application.Services.Implementations
             _dbContext = dbContext;
         }
 
-        public CreatedProjectViewModel Create(NewProjectInputModel inputModel)
+        public Project Create(Project entity)
         {
-            throw new NotImplementedException();
+            _dbContext.Projects.Add(entity);
+            _dbContext.SaveChanges();
+            return entity;
         }
 
-        public UpdatedProjectViewModel Update(int id, UpdateProjectInputModel inputModel)
+        public Project Update(Project entity)
         {
-            throw new NotImplementedException();
+            _dbContext.Projects.Add(entity);
+            _dbContext.SaveChanges();
+            return entity;
         }
 
-        public CreatedComment CreatedComment(int id, CreateCommentInputModel inputModel)
+        public ProjectComment CreatedComment(ProjectComment entity)
         {
-            throw new NotImplementedException();
+            _dbContext.ProjectsComments.Add(entity);
+            _dbContext.SaveChanges();
+            return entity;
         }
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            var project = GetById(id);
+            project.Cancel();
+            _dbContext.SaveChanges();
         }
 
         public void Finish(int id)
         {
-            throw new NotImplementedException();
+            var project = GetById(id);
+            project.Finish();
+            _dbContext.SaveChanges();
         }
 
-        public List<ProjectViewModel> GetAll(string query)
-        {
-            throw new NotImplementedException();
-        }
+        public List<Project> GetAll(string query) => _dbContext.Projects.ToList();
 
-        public ProjectDetailsViewModel GetById(int id)
+        public Project GetById(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return _dbContext.Projects.Single(p => p.Id == id);
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw new ArgumentNullException($"Projeto {id} não encontrado", ex);
+            }
         }
 
         public void Start(int id)
         {
-            throw new NotImplementedException();
+            var project = GetById(id);
+            project.Start();
+            _dbContext.SaveChanges();
         }
+
     }
 
 }

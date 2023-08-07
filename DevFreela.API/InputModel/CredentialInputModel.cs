@@ -1,4 +1,4 @@
-namespace DevFreela.Application.InputModel
+namespace DevFreela.API.InputModel
 {
     public class CredentialInputModel
     {

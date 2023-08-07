@@ -1,4 +1,4 @@
-using DevFreela.Application.ViewModel;
+using DevFreela.Core.Entities;
 
 namespace DevFreela.Application.Services.Interfaces
 {
@@ -6,7 +6,7 @@ namespace DevFreela.Application.Services.Interfaces
     public interface ISkillService
     {
 
-        List<SkillViewModel> GetAll();
+        List<Skill> GetAll();
 
     }
 

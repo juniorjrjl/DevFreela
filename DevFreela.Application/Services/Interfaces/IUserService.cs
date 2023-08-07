@@ -1,5 +1,4 @@
-using DevFreela.Application.InputModel;
-using DevFreela.Application.ViewModel;
+using DevFreela.Core.Entities;
 
 namespace DevFreela.Application.Services.Interfaces
 {
@@ -7,11 +6,11 @@ namespace DevFreela.Application.Services.Interfaces
     public interface IUserService
     {
         
-        UserViewModel GetById(int id);
+        User GetById(int id);
 
-        SavedUserViewModel Create(NewUserInputModel inputModel);
+        User Create(User entity);
 
-        CredentialViewModel Login(CredentialInputModel inputModel);
+        User Login(User entity);
 
     }
 

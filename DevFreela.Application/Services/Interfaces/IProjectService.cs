@@ -1,18 +1,17 @@
-using DevFreela.Application.InputModel;
-using DevFreela.Application.ViewModel;
+using DevFreela.Core.Entities;
 
 namespace DevFreela.Application.Services.Interfaces
 {
     public interface IProjectService
     {
 
-        List<ProjectViewModel> GetAll(string query);
+        List<Project> GetAll(string query);
 
-        ProjectDetailsViewModel GetById(int id);
+        Project GetById(int id);
 
-        CreatedProjectViewModel Create(NewProjectInputModel inputModel);
+        Project Create(Project entity);
 
-        UpdatedProjectViewModel Update(int id, UpdateProjectInputModel inputModel);
+        Project Update(Project entity);
 
         void Delete(int id);
 
@@ -20,7 +19,7 @@ namespace DevFreela.Application.Services.Interfaces
 
         void Finish(int id);
 
-        CreatedComment CreatedComment(int id, CreateCommentInputModel inputModel);
+        ProjectComment CreatedComment(ProjectComment entity);
 
     }
 }

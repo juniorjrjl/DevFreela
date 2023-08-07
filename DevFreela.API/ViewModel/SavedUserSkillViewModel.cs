@@ -1,9 +1,10 @@
-namespace DevFreela.Application.ViewModel
+namespace DevFreela.API.ViewModel
 {
-
-    public class SkillViewModel
+    
+    public class SavedUserSkillViewModel
     {
-        public SkillViewModel(int id, string description)
+        
+        public SavedUserSkillViewModel(int id, string description)
         {
             Id = id;
             Description = description;
@@ -11,6 +12,7 @@ namespace DevFreela.Application.ViewModel
 
         public int Id { get; private set; }
         public string Description { get; private set; }
+
     }
 
 }

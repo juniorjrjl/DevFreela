@@ -1,4 +1,4 @@
-namespace DevFreela.Application.ViewModel
+namespace DevFreela.API.ViewModel
 {
     public class CreatedComment
     {

@@ -10,17 +10,17 @@ namespace DevFreela.Core.Entities
             CreatedAt = DateTime.Now;
         }
 
-        public string Comment { get; private set; }
+        public string Comment { get; set; }
 
-        public int ProjectId { get; private set; }
+        public int ProjectId { get; set; }
 
-        public Project Project { get; private set; }
+        public Project Project { get; set; }
 
-        public int UserId { get; private set; }
+        public int UserId { get; set; }
 
-        public User User { get; private set; }
+        public User User { get; set; }
 
-        public DateTime CreatedAt { get; private set; }
+        public DateTime CreatedAt { get; set; }
 
     }
 }

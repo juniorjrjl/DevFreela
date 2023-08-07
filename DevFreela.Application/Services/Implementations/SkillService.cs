@@ -1,5 +1,5 @@
 using DevFreela.Application.Services.Interfaces;
-using DevFreela.Application.ViewModel;
+using DevFreela.Core.Entities;
 using DevFreela.Infrastructure.Persistence;
 
 namespace DevFreela.Application.Services.Implementations
@@ -15,10 +15,8 @@ namespace DevFreela.Application.Services.Implementations
             _dbContext = dbContext;
         }
 
-        public List<SkillViewModel> GetAll()
-        {
-            throw new NotImplementedException();
-        }
+        public List<Skill> GetAll() => _dbContext.Skills.ToList();
+
     }
 
 }

@@ -11,10 +11,10 @@ namespace DevFreela.Core.Entities
             UsersSkills = new List<UserSkill>();
         }
 
-        public string Description { get; private set; }
+        public string Description { get; set; }
 
-        public DateTime CreatedAt { get; private set; }
+        public DateTime CreatedAt { get; set; }
 
-        public List<UserSkill> UsersSkills { get; private set; }
+        public List<UserSkill> UsersSkills { get; set; }
     }
 }

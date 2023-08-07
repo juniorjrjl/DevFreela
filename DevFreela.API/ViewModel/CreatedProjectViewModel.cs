@@ -1,15 +1,18 @@
-namespace DevFreela.Application.InputModel
+namespace DevFreela.API.ViewModel
 {
-    public class NewProjectInputModel
+    public class CreatedProjectViewModel
     {
-        public NewProjectInputModel(string title, string description, int clientId, int freelancerId, decimal totalCost)
+        public CreatedProjectViewModel(int id, string title, string description, int clientId, int freelancerId, decimal totalCost)
         {
+            Id = id;
             Title = title;
             Description = description;
             ClientId = clientId;
             FreelancerId = freelancerId;
             TotalCost = totalCost;
         }
+
+        public int Id { get; private set; }
 
         public string Title { get; private set; } 
 
