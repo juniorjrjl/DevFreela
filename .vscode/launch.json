@@ -14,7 +14,7 @@
                 "quoteArgs": false
             },
             "sourceFileMap": {
-                "path/in/container": "${workspaceRoot}/local/path"
+                "/DevFreela": "${workspaceRoot}"
             }
         }
     ]
