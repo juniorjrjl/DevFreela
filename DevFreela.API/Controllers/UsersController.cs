@@ -1,4 +1,3 @@
-
 using AutoMapper;
 using DevFreela.API.InputModel;
 using DevFreela.API.ViewModel;
@@ -25,15 +24,15 @@ namespace DevFreela.API.Controllers
         public IActionResult GetById(int id)
         {
             var entity = _userService.GetById(id);
-            var viewModel = new UserViewModel(entity.Id, entity.Name, entity.Email, entity.BirthDate);
+            var viewModel = _mapper.Map<UserViewModel>(entity);
             return Ok(viewModel);
         }
 
         [HttpPost]
-        public IActionResult Post(NewUserInputModel inputModel)
+        public IActionResult Post([FromBody]NewUserInputModel inputModel)
         {
             var entity = _mapper.Map<User>(inputModel);
-            if (inputModel.SkillsId is not null){
+            if (inputModel.SkillsId is not null && inputModel.SkillsId.Any()){
                 entity.UsersSkills = inputModel.SkillsId.Select(id => _mapper.Map<UserSkill>(id)).ToList();
             }
             var saved = _userService.Create(entity);

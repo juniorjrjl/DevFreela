@@ -2,6 +2,13 @@ namespace DevFreela.API.InputModel
 {
     public class NewUserInputModel
     {
+        public NewUserInputModel(string name, string email, DateTime birthDate, List<int>? skillsId)
+        {
+            Name = name;
+            Email = email;
+            BirthDate = birthDate;
+            SkillsId = skillsId;
+        }
 
         public string Name { get; private set; }
 

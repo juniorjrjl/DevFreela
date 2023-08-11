@@ -2,13 +2,13 @@ namespace DevFreela.API.InputModel
 {
     public class CreateCommentInputModel
     {
-        public CreateCommentInputModel(string content, int userId)
+        public CreateCommentInputModel(string comment, int userId)
         {
-            Content = content;
+            Comment = comment;
             UserId = userId;
         }
 
-        public string Content { get; private set; }
+        public string Comment { get; private set; }
 
         public int UserId { get; private set; }
 

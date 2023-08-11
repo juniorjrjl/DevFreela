@@ -13,6 +13,7 @@ namespace DevFreela.API.Mappers
             CreateMap<int, Skill>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src));
             CreateMap<NewUserInputModel, User>();
+            CreateMap<User, UserViewModel>();
             CreateMap<User, SavedUserViewModel>();
         }
     }

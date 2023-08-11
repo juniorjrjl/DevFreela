@@ -1,4 +1,4 @@
-
+using AutoMapper;
 using DevFreela.API.InputModel;
 using DevFreela.API.ViewModel;
 using DevFreela.Application.Services.Interfaces;
@@ -12,17 +12,19 @@ namespace DevFreela.API.Controllers
     {
 
         private readonly IProjectService _projectService;
+        private readonly IMapper _mapper;
 
-        public ProjectsController(IProjectService projectService)
+        public ProjectsController(IProjectService projectService, IMapper mapper)
         {
             _projectService = projectService;
+            _mapper = mapper;
         }
 
         [HttpGet]
         public IActionResult Get(string query)
         {
             var projects = _projectService.GetAll(query);
-            var viewModel = projects.Select(p => new ProjectViewModel(p.Id, p.Title, p.CreatedAt)).ToList();
+            var viewModel = _mapper.Map<List<ProjectViewModel>>(projects);
             return Ok(viewModel);
         }
         
@@ -30,35 +32,26 @@ namespace DevFreela.API.Controllers
         public IActionResult GetById(int id)
         {
             var project = _projectService.GetById(id);
-            var viewModel = new ProjectDetailsViewModel(
-                project.Id, 
-                project.Title, 
-                project.Description, 
-                project.TotalCost, 
-                project.CreatedAt, 
-                project.FinishedAt
-            );
+            var viewModel = _mapper.Map<ProjectDetailsViewModel>(project);
             return Ok(viewModel);
         }
 
         [HttpPost]
         public IActionResult Post([FromBody] NewProjectInputModel inputModel)
         {
-            var entity = new Project(inputModel.Title, inputModel.Description, inputModel.ClientId, inputModel.FreelancerId, inputModel.TotalCost);
+            var entity = _mapper.Map<Project>(inputModel);
             var saved = _projectService.Create(entity);
-            var viewModel = new CreatedProjectViewModel(saved.Id, saved.Title, saved.Description, saved.ClientId, saved.FreelancerId, saved.TotalCost);
-            return CreatedAtAction(nameof(GetById), viewModel);
+            var viewModel = _mapper.Map<CreatedProjectViewModel>(saved);
+            return Created(nameof(GetById), viewModel);
         }
 
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody]UpdateProjectInputModel inputModel)
         {
             var entity = _projectService.GetById(id);
-            entity.Title = inputModel.Title;
-            entity.Description = inputModel.Description;
-            entity.TotalCost = inputModel.TotalCost;
+            entity = _mapper.Map(inputModel, entity);
             var saved = _projectService.Update(entity);
-            var viewModel = new UpdatedProjectViewModel(saved.Id, saved.Title, saved.Description, saved.TotalCost);
+            var viewModel = _mapper.Map<UpdatedProjectViewModel>(saved);
             return Ok(viewModel);
         }
 
@@ -73,7 +66,8 @@ namespace DevFreela.API.Controllers
         public IActionResult PostComment(int id, CreateCommentInputModel inputModel)
         {
             _projectService.GetById(id);
-            var entity = new ProjectComment(inputModel.Content, id, inputModel.UserId);
+            var entity = _mapper.Map<ProjectComment>(inputModel);
+            entity.Id = id;
             _projectService.CreatedComment(entity);
             return NoContent();
         }

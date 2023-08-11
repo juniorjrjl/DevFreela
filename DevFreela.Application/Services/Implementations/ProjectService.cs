@@ -25,7 +25,11 @@ namespace DevFreela.Application.Services.Implementations
 
         public Project Update(Project entity)
         {
-            _dbContext.Projects.Add(entity);
+            var toUpdate = GetById(entity.Id);
+            toUpdate.Title = entity.Title;
+            toUpdate.Description = entity.Description;
+            toUpdate.TotalCost = entity.TotalCost;
+            //_dbContext.Projects.Add(toUpdate);
             _dbContext.SaveChanges();
             return entity;
         }

@@ -12,14 +12,10 @@ RUN mkdir $INSTALL_PATH
 
 WORKDIR $INSTALL_PATH
 
-COPY /DevFreela.API/DevFreela.API.csproj ./
+COPY . .
 
-RUN dotnet restore DevFreela.API.csproj
-
-RUN rm DevFreela.API.csproj
+RUN dotnet restore DevFreela.API/DevFreela.API.csproj
 
 RUN dotnet tool install --global dotnet-ef
 
 ENV PATH="$PATH:/root/.dotnet/tools"
-
-COPY . .
