@@ -29,7 +29,6 @@ namespace DevFreela.Application.Services.Implementations
             toUpdate.Title = entity.Title;
             toUpdate.Description = entity.Description;
             toUpdate.TotalCost = entity.TotalCost;
-            //_dbContext.Projects.Add(toUpdate);
             _dbContext.SaveChanges();
             return entity;
         }
