@@ -1,6 +1,8 @@
 using DevFreela.Core.Entities;
+using DevFreela.Core.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DevFreela.Infrastructure.Persistence.Configurations
 {
@@ -47,6 +49,7 @@ namespace DevFreela.Infrastructure.Persistence.Configurations
                 .HasColumnName("create_at");
 
             builder.Property(p=> p.Status)
+                .HasConversion(new EnumToStringConverter<ProjectStatusEnum>())
                 .HasColumnName("status");
         }
 
