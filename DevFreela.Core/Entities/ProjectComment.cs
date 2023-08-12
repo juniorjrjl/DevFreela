@@ -1,14 +1,9 @@
 namespace DevFreela.Core.Entities
 {
-    public class ProjectComment : BaseEntity
+    public class ProjectComment
     {
-        public ProjectComment(string comment, int projectId, int userId)
-        {
-            Comment = comment;
-            ProjectId = projectId;
-            UserId = userId;
-            CreatedAt = DateTime.Now;
-        }
+
+        public int Id { get; set;}
 
         public string Comment { get; set; }
 

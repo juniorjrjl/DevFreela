@@ -2,19 +2,10 @@ using System.Collections.Generic;
 
 namespace DevFreela.Core.Entities
 {
-    public class User : BaseEntity
+    public class User
     {
-        public User(string name, string email, DateTime birthDate)
-        {
-            Name = name;
-            Email = email;
-            BirthDate = birthDate;
-            CreatedAt = DateTime.Now;
-            Active = true;
-            UsersSkills = new List<UserSkill>();
-            OwnedProjects = new List<Project>();
-            FreelancerProjects = new List<Project>();
-        }
+
+        public int Id { get; set;}
 
         public string Name { get; set; }
 

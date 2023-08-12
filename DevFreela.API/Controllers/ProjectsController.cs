@@ -63,11 +63,11 @@ namespace DevFreela.API.Controllers
         }
 
         [HttpPost("{id}/comments")]
-        public IActionResult PostComment(int id, CreateCommentInputModel inputModel)
+        public IActionResult PostComment(int id, [FromBody] CreateCommentInputModel inputModel)
         {
             _projectService.GetById(id);
             var entity = _mapper.Map<ProjectComment>(inputModel);
-            entity.Id = id;
+            entity.ProjectId = id;
             _projectService.CreatedComment(entity);
             return NoContent();
         }

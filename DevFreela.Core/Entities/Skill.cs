@@ -1,15 +1,10 @@
 
 namespace DevFreela.Core.Entities
 {
-    public class Skill : BaseEntity
+    public class Skill
     {
 
-        public Skill(string description)
-        {
-            Description = description;
-            CreatedAt = DateTime.Now;
-            UsersSkills = new List<UserSkill>();
-        }
+        public int Id { get; set;}
 
         public string Description { get; set; }
 

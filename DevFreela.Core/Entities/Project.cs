@@ -3,19 +3,10 @@ using DevFreela.Core.Enums;
 namespace DevFreela.Core.Entities
 {
 
-    public class Project : BaseEntity
+    public class Project
     {
-        public Project(string title, string description, int clientId, int freelancerId, decimal totalCost)
-        {
-            Title = title;
-            Description = description;
-            ClientId = clientId;
-            FreelancerId = freelancerId;
-            TotalCost = totalCost;
-            CreatedAt = DateTime.Now;
-            Status = ProjectStatusEnum.CREATED;
-            Comments = new List<ProjectComment>();
-        }
+
+        public int Id { get; set;}
 
         public string Title { get; set; }
 
