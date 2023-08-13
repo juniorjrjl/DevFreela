@@ -1,6 +1,7 @@
 using AutoMapper;
 using DevFreela.API.InputModel;
 using DevFreela.API.ViewModel;
+using DevFreela.Application.Commands.CreateUser;
 using DevFreela.Core.Entities;
 
 namespace DevFreela.API.Mappers
@@ -10,11 +11,9 @@ namespace DevFreela.API.Mappers
     {
         public UserProfile()
         {
-            CreateMap<int, Skill>()
-                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src));
-            CreateMap<NewUserInputModel, User>();
+            CreateMap<NewUserInputModel, CreateUserCommand>();
             CreateMap<User, UserViewModel>();
-            CreateMap<User, SavedUserViewModel>();
+            CreateMap<CreateUserCommand, SavedUserViewModel>();
         }
     }
 

@@ -1,6 +1,6 @@
 namespace DevFreela.API.ViewModel
 {
-    public class CreatedComment
+    public class CreatedCommentViewModel
     {
 
         public int Id { get; set; }

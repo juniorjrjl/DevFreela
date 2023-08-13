@@ -1,5 +1,6 @@
 using AutoMapper;
 using DevFreela.API.InputModel;
+using DevFreela.Application.Commands.CreateProjectComment;
 using DevFreela.Core.Entities;
 
 namespace DevFreela.API.Mappers
@@ -9,7 +10,7 @@ namespace DevFreela.API.Mappers
 
         public ProjectCommentProfile()
         {
-            CreateMap<CreateCommentInputModel, ProjectComment>();
+            CreateMap<CreateCommentInputModel, CreateProjectCommentCommand>();
         }
 
     }
