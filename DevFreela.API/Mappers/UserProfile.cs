@@ -13,7 +13,8 @@ namespace DevFreela.API.Mappers
         {
             CreateMap<NewUserInputModel, CreateUserCommand>();
             CreateMap<User, UserViewModel>();
-            CreateMap<CreateUserCommand, SavedUserViewModel>();
+            CreateMap<User, SavedUserViewModel>();
+            CreateMap<CreateUserCommand, User>();
         }
     }
 

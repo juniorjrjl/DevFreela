@@ -68,7 +68,6 @@ namespace DevFreela.API.Controllers
         [HttpPost("{id}/comments")]
         public async Task<IActionResult> PostComment(int id, [FromBody] CreateCommentInputModel inputModel)
         {
-            await _mediator.Send(new GetProjectByIdQuery(id));
             var command = _mapper.Map<CreateProjectCommentCommand>(inputModel);
             command.ProjectId = id;
             await _mediator.Send(command);

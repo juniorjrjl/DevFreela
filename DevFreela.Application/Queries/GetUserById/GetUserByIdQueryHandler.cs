@@ -1,27 +1,18 @@
 using DevFreela.Core.Entities;
-using DevFreela.Infrastructure.Persistence;
+using DevFreela.Core.Repositories;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace DevFreela.Application.Queries.GetUserById
 {
     public class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, User>
     {
-        private readonly DevFreelaDbContext _dbContext;
-        public GetUserByIdQueryHandler(DevFreelaDbContext dbContext)
+        private readonly IUserQueryRepository _userQueryRepository;
+        public GetUserByIdQueryHandler(IUserQueryRepository userQueryRepository)
         {
-            _dbContext = dbContext;
+            _userQueryRepository = userQueryRepository;
         }
 
-        public async Task<User> Handle(GetUserByIdQuery query, CancellationToken cancellationToken)
-        {
-            try
-            {
-                return await  _dbContext.Users.SingleAsync(p => p.Id == query.Id);
-            }catch(ArgumentNullException ex)
-            {
-                throw new ArgumentNullException($"Usuário {query.Id} não encontrado", ex);
-            }
-        }
+        public async Task<User> Handle(GetUserByIdQuery query, CancellationToken cancellationToken) => await _userQueryRepository.GetByIdAsync(query.Id);
+
     }
 }

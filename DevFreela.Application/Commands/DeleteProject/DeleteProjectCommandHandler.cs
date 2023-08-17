@@ -1,26 +1,27 @@
-using DevFreela.Core.Entities;
-using DevFreela.Infrastructure.Persistence;
+using DevFreela.Core.Repositories;
 using MediatR;
 
 namespace DevFreela.Application.Commands.DeleteProject
 {
 
-    public class DeleteProjectCommandHandler : IRequestHandler<DeleteProjectCommand, Unit>
+    public class DeleteProjectCommandHandler : IRequestHandler<DeleteProjectCommand>
     {
 
-        private readonly DevFreelaDbContext _dbContext;
+        private readonly IProjectRepository _projectRepository;
+        private readonly IProjectQueryRepository _projectQueryRepository;
 
-        public DeleteProjectCommandHandler(DevFreelaDbContext dbContext)
+        public DeleteProjectCommandHandler(IProjectRepository projectRepository, IProjectQueryRepository projectQueryRepository)
         {
-            _dbContext = dbContext;
+            _projectRepository = projectRepository;
+            _projectQueryRepository = projectQueryRepository;
         }
 
-        public async Task<Unit> Handle(DeleteProjectCommand command, CancellationToken cancellationToken)
+        public async Task Handle(DeleteProjectCommand command, CancellationToken cancellationToken)
         {
-            var project = new Project();//GetById(command.id);
-            project.Cancel();
-            await _dbContext.SaveChangesAsync();
-            return Unit.Value;
+            var toUpdate = await _projectQueryRepository.GetByIdAsync(command.Id);
+            toUpdate.Cancel();
+            await _projectRepository.UpdateAsync(toUpdate);
+            return;
         }
     }
 }

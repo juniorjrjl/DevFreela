@@ -11,6 +11,7 @@ namespace DevFreela.API.Mappers
         public ProjectCommentProfile()
         {
             CreateMap<CreateCommentInputModel, CreateProjectCommentCommand>();
+            CreateMap<CreateProjectCommentCommand, ProjectComment>();
         }
 
     }

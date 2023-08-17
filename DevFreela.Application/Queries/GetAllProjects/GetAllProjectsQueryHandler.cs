@@ -1,18 +1,18 @@
 using DevFreela.Core.Entities;
-using DevFreela.Infrastructure.Persistence;
+using DevFreela.Core.Repositories;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace DevFreela.Application.Queries.GetAllProjects
 {
     public class GetAllProjectsQueryHandler : IRequestHandler<GetAllProjectsQuery, List<Project>>
     {
-        private readonly DevFreelaDbContext _dbContext;
-        public GetAllProjectsQueryHandler(DevFreelaDbContext dbContext)
+        private readonly IProjectQueryRepository _projectQueryRepository;
+        public GetAllProjectsQueryHandler(IProjectQueryRepository projectQueryRepository)
         {
-            _dbContext = dbContext;
+            _projectQueryRepository = projectQueryRepository;
         }
 
-        public async Task<List<Project>> Handle(GetAllProjectsQuery query, CancellationToken cancellationToken) => await _dbContext.Projects.ToListAsync();
+        public async Task<List<Project>> Handle(GetAllProjectsQuery query, CancellationToken cancellationToken) => await _projectQueryRepository.GetAllAsync();
+
     }
 }

@@ -1,4 +1,6 @@
+using AutoMapper;
 using DevFreela.Core.Entities;
+using DevFreela.Core.Repositories;
 using DevFreela.Infrastructure.Persistence;
 using MediatR;
 
@@ -8,27 +10,22 @@ namespace DevFreela.Application.Commands.CreateUser
     public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, User>
     {
 
-        private readonly DevFreelaDbContext _dbContext; 
+        private readonly IUserRepository _userRepository;
+        private readonly IMapper _mapper;
 
-        public CreateUserCommandHandler(DevFreelaDbContext dbContext)
+        public CreateUserCommandHandler(IUserRepository userRepository, IMapper mapper)
         {
-            _dbContext = dbContext;
+            _userRepository = userRepository;
+            _mapper = mapper;
         }
 
         public async Task<User> Handle(CreateUserCommand command, CancellationToken cancellationToken)
         {
-            var entity = new User
-            {
-                Name = command.Name,
-                Email = command.Email,
-                BirthDate = command.BirthDate
-            };
+            var entity = _mapper.Map<User>(command);
             if (command.SkillsId is not null && command.SkillsId.Any()){
                 entity.UsersSkills = command.SkillsId.Select(id => new UserSkill{SkillId = id}).ToList();
             }
-            await _dbContext.Users.AddAsync(entity);
-            await _dbContext.SaveChangesAsync();
-            return entity;
+            return await _userRepository.AddAsync(entity);
         }
     }
 

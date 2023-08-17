@@ -1,5 +1,6 @@
+using AutoMapper;
 using DevFreela.Core.Entities;
-using DevFreela.Infrastructure.Persistence;
+using DevFreela.Core.Repositories;
 using MediatR;
 
 namespace DevFreela.Application.Commands.CreateProject
@@ -8,26 +9,19 @@ namespace DevFreela.Application.Commands.CreateProject
     public class CreateProjectCommandHandler : IRequestHandler<CreateProjectCommand, Project>
     {
 
-        private readonly DevFreelaDbContext _dbContext; 
+        private readonly IProjectRepository _projectRepository; 
+        private readonly IMapper _mapper;
 
-        public CreateProjectCommandHandler(DevFreelaDbContext dbContext)
+        public CreateProjectCommandHandler(IProjectRepository projectRepository, IMapper mapper)
         {
-            _dbContext = dbContext;
+            _projectRepository = projectRepository;
+            _mapper = mapper;
         }
 
         public async Task<Project> Handle(CreateProjectCommand command, CancellationToken cancellationToken)
         {
-            var entity = new Project
-            {
-                Title = command.Title,
-                Description = command.Description,
-                ClientId = command.ClientId,
-                FreelancerId = command.FreelancerId,
-                TotalCost = command.TotalCost
-            };
-            await _dbContext.Projects.AddAsync(entity);
-            await _dbContext.SaveChangesAsync();
-            return entity;
+            var entity = _mapper.Map<Project>(command);
+            return await _projectRepository.AddAsync(entity);
         }
     }
 

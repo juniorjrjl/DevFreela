@@ -1,5 +1,6 @@
+using AutoMapper;
 using DevFreela.Core.Entities;
-using DevFreela.Infrastructure.Persistence;
+using DevFreela.Core.Repositories;
 using MediatR;
 
 namespace DevFreela.Application.Commands.CreateProjectComment
@@ -8,25 +9,22 @@ namespace DevFreela.Application.Commands.CreateProjectComment
     public class CreateProjectCommentCommandHandler : IRequestHandler<CreateProjectCommentCommand, ProjectComment>
     {
 
-        private readonly DevFreelaDbContext _dbContext; 
+        private readonly IProjectRepository _projectRepository; 
+        private readonly IProjectQueryRepository _projectQueryRepository;
+        private readonly IMapper _mapper;
 
-        public CreateProjectCommentCommandHandler(DevFreelaDbContext dbContext)
+        public CreateProjectCommentCommandHandler(IProjectRepository projectRepository, IProjectQueryRepository projectQueryRepository, IMapper mapper)
         {
-            _dbContext = dbContext;
+            _projectRepository = projectRepository;
+            _projectQueryRepository = projectQueryRepository;
+            _mapper = mapper;
         }
 
         public async Task<ProjectComment> Handle(CreateProjectCommentCommand command, CancellationToken cancellationToken)
         {
-            var entity = new ProjectComment
-            {
-                Id = command.Id,
-                Comment = command.Comment,
-                ProjectId = command.ProjectId,
-                UserId = command.UserId
-            };
-            await _dbContext.ProjectsComments.AddAsync(entity);
-            await _dbContext.SaveChangesAsync();
-            return entity;
+            await _projectQueryRepository.GetByIdAsync(command.ProjectId);
+            var entity = _mapper.Map<ProjectComment>(command);
+            return await _projectRepository.AddCommentAsync(entity);
         }
     }
 

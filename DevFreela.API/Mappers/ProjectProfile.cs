@@ -14,10 +14,11 @@ namespace DevFreela.API.Mappers
             CreateMap<Project, ProjectViewModel>();
             CreateMap<Project, ProjectDetailsViewModel>();
             CreateMap<NewProjectInputModel, CreateProjectCommand>();
-            CreateMap<CreateProjectCommand, CreatedProjectViewModel>();
+            CreateMap<Project, CreatedProjectViewModel>();
             CreateMap<UpdateProjectInputModel, CreateProjectCommand>();
-            CreateMap<CreateProjectCommand, UpdatedProjectViewModel>();
+            CreateMap<Project, UpdatedProjectViewModel>();
             CreateMap<CreateCommentInputModel, ProjectComment>();
+            CreateMap<CreateProjectCommand, Project>();
         }
 
     }
