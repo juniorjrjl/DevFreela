@@ -1,3 +1,4 @@
+using AutoMapper;
 using DevFreela.Core.Entities;
 using DevFreela.Core.Repositories;
 using MediatR;
@@ -10,19 +11,19 @@ namespace DevFreela.Application.Commands.UpdateProject
 
         private readonly IProjectRepository _projectRepository;
         private readonly IProjectQueryRepository _projectQueryRepository;
+        private readonly IMapper _mapper;
 
-        public UpdateProjectCommandHandler(IProjectRepository projectRepository, IProjectQueryRepository projectQueryRepository)
+        public UpdateProjectCommandHandler(IProjectRepository projectRepository, IProjectQueryRepository projectQueryRepository, IMapper mapper)
         {
             _projectRepository = projectRepository;
             _projectQueryRepository = projectQueryRepository;
+            _mapper  = mapper;
         }
 
         public async Task<Project> Handle(UpdateProjectCommand command, CancellationToken cancellationToken)
         {
-            var toUpdate = await _projectQueryRepository.GetByIdAsync(command.Id);
-            toUpdate.Title = command.Title;
-            toUpdate.Description = command.Description;
-            toUpdate.TotalCost = command.TotalCost;
+            Project toUpdate = await _projectQueryRepository.GetByIdAsync(command.Id?? throw new ArgumentException("É necessário o id do projeto para atualiza-lo"));
+            toUpdate = _mapper.Map(command, toUpdate);
             return await _projectRepository.UpdateAsync(toUpdate);
         }
     }

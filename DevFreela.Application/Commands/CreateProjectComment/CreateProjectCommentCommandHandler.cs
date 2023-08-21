@@ -22,7 +22,7 @@ namespace DevFreela.Application.Commands.CreateProjectComment
 
         public async Task<ProjectComment> Handle(CreateProjectCommentCommand command, CancellationToken cancellationToken)
         {
-            await _projectQueryRepository.GetByIdAsync(command.ProjectId);
+            await _projectQueryRepository.GetByIdAsync(command.ProjectId?? throw new ArgumentException("O comentário deve referenciar um projeto"));
             var entity = _mapper.Map<ProjectComment>(command);
             return await _projectRepository.AddCommentAsync(entity);
         }

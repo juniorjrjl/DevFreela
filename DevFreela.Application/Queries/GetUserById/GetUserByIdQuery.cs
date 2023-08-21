@@ -3,15 +3,5 @@ using MediatR;
 
 namespace DevFreela.Application.Queries.GetUserById
 {
-    public class GetUserByIdQuery : IRequest<User>
-    {
-        public GetUserByIdQuery(int id)
-        {
-            Id = id;
-        }
-
-        public int Id { get; set; }
-        
-    }
-    
+    public record GetUserByIdQuery(int Id) : IRequest<User>;
 }

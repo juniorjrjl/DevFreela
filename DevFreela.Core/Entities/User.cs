@@ -17,13 +17,13 @@ namespace DevFreela.Core.Entities
 
         public bool Active { get; set; }
 
-        public List<UserSkill> UsersSkills { get; set; }
+        public virtual ICollection<UserSkill> UsersSkills { get; set; }
 
-        public List<Project> OwnedProjects { get; set; }
+        public virtual ICollection<Project> OwnedProjects { get; set; }
 
-        public List<Project> FreelancerProjects { get; set; }
+        public virtual ICollection<Project> FreelancerProjects { get; set; }
 
-        public List<ProjectComment> Comments { get; set; }
+        public virtual ICollection<ProjectComment> Comments { get; set; }
 
     }
 

@@ -28,7 +28,7 @@ namespace DevFreela.Core.Entities
 
         public ProjectStatusEnum Status { get; private set; }
 
-        public List<ProjectComment> Comments { get; set; }
+        public virtual ICollection<ProjectComment> Comments { get; set; }
 
         public void Cancel()
         {

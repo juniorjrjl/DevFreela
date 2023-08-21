@@ -1,16 +1,5 @@
 namespace DevFreela.API.ViewModel
 {
+    public record UserViewModel(int Id, string Name, string Email, DateTime BirthDate);
     
-    public class UserViewModel
-    {
-
-        public int Id { get; set; }
-        public string Name { get; set; }
-
-        public string Email { get; set; }
-
-        public DateTime BirthDate { get; set; }
-
-    }
-
 }

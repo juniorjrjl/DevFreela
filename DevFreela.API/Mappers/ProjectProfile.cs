@@ -2,6 +2,7 @@ using AutoMapper;
 using DevFreela.API.InputModel;
 using DevFreela.API.ViewModel;
 using DevFreela.Application.Commands.CreateProject;
+using DevFreela.Application.Commands.UpdateProject;
 using DevFreela.Core.Entities;
 
 namespace DevFreela.API.Mappers
@@ -15,10 +16,12 @@ namespace DevFreela.API.Mappers
             CreateMap<Project, ProjectDetailsViewModel>();
             CreateMap<NewProjectInputModel, CreateProjectCommand>();
             CreateMap<Project, CreatedProjectViewModel>();
-            CreateMap<UpdateProjectInputModel, CreateProjectCommand>();
+            CreateMap<UpdateProjectInputModel, UpdateProjectCommand>()
+                .ConstructUsing(src => new UpdateProjectCommand(src.Title, src.Description, src.TotalCost, null));
             CreateMap<Project, UpdatedProjectViewModel>();
             CreateMap<CreateCommentInputModel, ProjectComment>();
             CreateMap<CreateProjectCommand, Project>();
+            CreateMap<UpdateProjectCommand, Project>();
         }
 
     }

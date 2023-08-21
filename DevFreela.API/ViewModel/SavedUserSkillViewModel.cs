@@ -1,12 +1,5 @@
 namespace DevFreela.API.ViewModel
 {
+    public record SavedUserSkillViewModel(int Id, string Description);
     
-    public class SavedUserSkillViewModel
-    {
-
-        public int Id { get; set; }
-        public string Description { get; set; }
-
-    }
-
 }

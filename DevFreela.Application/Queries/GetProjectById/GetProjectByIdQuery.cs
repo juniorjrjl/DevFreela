@@ -3,15 +3,5 @@ using MediatR;
 
 namespace DevFreela.Application.Queries.GetProjectById
 {
-    public class GetProjectByIdQuery : IRequest<Project>
-    {
-        public GetProjectByIdQuery(int id)
-        {
-            Id = id;
-        }
-
-        public int Id { get; set; }
-        
-    }
-    
+    public record GetProjectByIdQuery(int Id) : IRequest<Project>;
 }

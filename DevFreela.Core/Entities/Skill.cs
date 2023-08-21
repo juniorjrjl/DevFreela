@@ -10,6 +10,6 @@ namespace DevFreela.Core.Entities
 
         public DateTime CreatedAt { get; set; }
 
-        public List<UserSkill> UsersSkills { get; set; }
+        public virtual ICollection<UserSkill> UsersSkills { get; set; }
     }
 }

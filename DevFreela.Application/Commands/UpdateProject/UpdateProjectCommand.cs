@@ -4,16 +4,6 @@ using MediatR;
 
 namespace DevFreela.Application.Commands.UpdateProject
 {
-    
-    public class UpdateProjectCommand : IRequest<Project>
-    {
-        public int Id { get; set; }
-        public string Title { get; private set; } 
-
-        public string Description { get; private set; }
-
-        public decimal TotalCost { get; private set; }
-        
-    }
+    public record UpdateProjectCommand(string Title, string Description, decimal TotalCost, int? Id) : IRequest<Project>;
 
 }

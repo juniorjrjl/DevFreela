@@ -10,7 +10,8 @@ namespace DevFreela.API.Mappers
 
         public ProjectCommentProfile()
         {
-            CreateMap<CreateCommentInputModel, CreateProjectCommentCommand>();
+            CreateMap<CreateCommentInputModel, CreateProjectCommentCommand>()
+                .ConstructUsing(src => new CreateProjectCommentCommand(src.Comment, src.UserId, null) );
             CreateMap<CreateProjectCommentCommand, ProjectComment>();
         }
 

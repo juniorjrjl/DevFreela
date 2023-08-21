@@ -4,6 +4,7 @@ using DevFreela.API.ViewModel;
 using DevFreela.Application.Commands.CreateProject;
 using DevFreela.Application.Commands.CreateProjectComment;
 using DevFreela.Application.Commands.DeleteProject;
+using DevFreela.Application.Commands.UpdateProject;
 using DevFreela.Application.Queries.GetAllProjects;
 using DevFreela.Application.Queries.GetProjectById;
 using MediatR;
@@ -52,8 +53,8 @@ namespace DevFreela.API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, [FromBody]UpdateProjectInputModel inputModel)
         {
-            var command = _mapper.Map<CreateProjectCommand>(inputModel);
-            var saved = await _mediator.Send(command);
+            var command = _mapper.Map<UpdateProjectCommand>(inputModel);
+            var saved = await _mediator.Send(command with { Id = id });
             var viewModel = _mapper.Map<UpdatedProjectViewModel>(saved);
             return Ok(viewModel);
         }
@@ -69,8 +70,7 @@ namespace DevFreela.API.Controllers
         public async Task<IActionResult> PostComment(int id, [FromBody] CreateCommentInputModel inputModel)
         {
             var command = _mapper.Map<CreateProjectCommentCommand>(inputModel);
-            command.ProjectId = id;
-            await _mediator.Send(command);
+            await _mediator.Send(command with { ProjectId = id});
             return NoContent();
         }
 

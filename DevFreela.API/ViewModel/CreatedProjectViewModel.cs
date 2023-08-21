@@ -1,19 +1,5 @@
 namespace DevFreela.API.ViewModel
 {
-    public class CreatedProjectViewModel
-    {
+    public record CreatedProjectViewModel(int Id, string Title, string Description, int ClientId, int FreelancerId, decimal TotalCost);
 
-        public int Id { get; set; }
-
-        public string Title { get; set; } 
-
-        public string Description { get; set; }
-
-        public int ClientId { get; set; }
-
-        public int FreelancerId { get; set; }
-
-        public decimal TotalCost { get; set; }
-
-    }
 }

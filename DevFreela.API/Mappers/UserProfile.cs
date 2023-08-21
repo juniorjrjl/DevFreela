@@ -13,7 +13,10 @@ namespace DevFreela.API.Mappers
         {
             CreateMap<NewUserInputModel, CreateUserCommand>();
             CreateMap<User, UserViewModel>();
-            CreateMap<User, SavedUserViewModel>();
+            CreateMap<User, SavedUserViewModel>()
+                .ForCtorParam(ctorParamName: nameof(SavedUserViewModel.Skills), opt => opt.MapFrom(src => src.UsersSkills));
+            CreateMap<UserSkill, SavedUserSkillViewModel>()
+                .ConstructUsing(src => new SavedUserSkillViewModel(src.SkillId, src.Skill.Description));
             CreateMap<CreateUserCommand, User>();
         }
     }
