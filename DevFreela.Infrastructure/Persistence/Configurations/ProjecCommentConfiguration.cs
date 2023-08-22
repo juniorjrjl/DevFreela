@@ -39,6 +39,10 @@ namespace DevFreela.Infrastructure.Persistence.Configurations
             builder.HasOne(p => p.User)
                 .WithMany(p => p.Comments)
                 .HasForeignKey(p=> p.UserId);
+
+            builder.HasOne(p => p.Project)
+                .WithMany(p => p.Comments)
+                .HasForeignKey(p=> p.ProjectId);
         }
 
     }
