@@ -4,6 +4,6 @@ using MediatR;
 
 namespace DevFreela.Application.Commands.CreateUser
 {
-    public record CreateUserCommand(string Name, string Email, DateTime BirthDate, List<int>? SkillsId) : IRequest<User>;
+    public record CreateUserCommand(string Name, string Email, DateTime BirthDate, string Password, string Role, List<int>? SkillsId) : IRequest<User>;
 
 }

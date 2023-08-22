@@ -22,7 +22,15 @@ namespace DevFreela.Infrastructure.Persistence.Configurations
                 .HasColumnName("skill_id");
         }
 
-        protected override void ConfigureForeingKey(EntityTypeBuilder<UserSkill> builder) { }
+        protected override void ConfigureForeingKey(EntityTypeBuilder<UserSkill> builder) { 
+            builder.HasOne(fk => fk.User)
+                .WithMany(fk => fk.UsersSkills)
+                .HasForeignKey(fk => fk.UserId);
+
+            builder.HasOne(fk => fk.Skill)
+                .WithMany(fk => fk.UsersSkills)
+                .HasForeignKey(fk => fk.SkillId);
+        }
 
     }
 }

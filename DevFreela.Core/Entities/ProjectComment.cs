@@ -8,7 +8,7 @@ namespace DevFreela.Core.Entities
         public string Comment { get; set; }
 
         public int ProjectId { get; set; }
-
+        
         public virtual Project Project { get; set; }
 
         public int UserId { get; set; }

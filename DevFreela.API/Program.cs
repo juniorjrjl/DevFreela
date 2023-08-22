@@ -7,6 +7,8 @@ using DevFreela.API.Filters;
 using FluentValidation.AspNetCore;
 using DevFreela.API.Validators;
 using FluentValidation;
+using DevFreela.Core.Services;
+using DevFreela.Infrastructure.Auth;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +31,7 @@ builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 builder.Services.AddScoped<ISkillQueryRepository, SkillQueryRepository>();
 builder.Services.AddScoped<IUserQueryRepository, UserQueryRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 var app = builder.Build();
 

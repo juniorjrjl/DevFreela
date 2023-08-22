@@ -17,6 +17,10 @@ namespace DevFreela.Core.Entities
 
         public bool Active { get; set; }
 
+        public string Password { get; set; }
+
+        public string Role { get; set; }
+
         public virtual ICollection<UserSkill> UsersSkills { get; set; }
 
         public virtual ICollection<Project> OwnedProjects { get; set; }

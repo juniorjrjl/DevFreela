@@ -40,6 +40,7 @@ namespace DevFreela.Infrastructure.Persistence.Configurations
                 .WithOne()
                 .HasForeignKey(p => p.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
+
         }
 
     }
