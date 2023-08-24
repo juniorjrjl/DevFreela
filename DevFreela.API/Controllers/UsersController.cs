@@ -1,14 +1,17 @@
 using AutoMapper;
 using DevFreela.API.InputModel;
 using DevFreela.API.ViewModel;
+using DevFreela.Application.Commands;
 using DevFreela.Application.Commands.CreateUser;
 using DevFreela.Application.Queries.GetUserById;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DevFreela.API.Controllers
 {
     [Route("api/users")]
+    [Authorize]
     public class UsersController : ControllerBase
     {
         private readonly IMapper _mapper;
@@ -28,6 +31,7 @@ namespace DevFreela.API.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Post([FromBody]NewUserInputModel inputModel)
         {
             var command = _mapper.Map<CreateUserCommand>(inputModel);
@@ -37,9 +41,13 @@ namespace DevFreela.API.Controllers
         }
 
         [HttpPost("login")]
-        public IActionResult Login()
+        [AllowAnonymous]
+        public async Task<IActionResult> Login([FromBody] LoginInputModel inputModel)
         {
-            return CreatedAtAction(nameof(GetById), null);
+            var command = _mapper.Map<UserLoginCommand>(inputModel);
+            var dto = await _mediator.Send(command);
+            var viewModel = _mapper.Map<CredentialViewModel>(dto);
+            return Created("", viewModel);
         }
 
     }

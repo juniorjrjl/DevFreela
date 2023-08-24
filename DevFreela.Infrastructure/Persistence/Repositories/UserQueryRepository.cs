@@ -23,6 +23,19 @@ namespace DevFreela.Infrastructure.Persistence.Repositories
                 throw new ArgumentNullException($"Usuário {id} não encontrado", ex);
             }
         }
+
+        public async Task<User> GetByEmailAndPasswordAsync(string email, string passwordHash)
+        {
+            try
+            {
+                return await _dbContext.Users.SingleAsync(p => p.Email == email && p.Password == passwordHash);
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentNullException($"Não foi encontrado um usuário com as credenciais informadas", ex);
+            }
+        }
+
     }
 
 }

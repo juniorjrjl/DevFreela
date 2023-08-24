@@ -28,6 +28,10 @@ namespace DevFreela.API.Validators
                 .Must(BeGreatherThanEigthTeen)
                 .WithMessage("O usuário deve ter mais de 18 anos");
 
+            RuleFor(p => p.Password)
+                .Equal(p => p.PasswordConfirm)
+                .WithMessage("Os campos 'Password' e 'PasswordConfirm' devem ser iguais");
+
         }
 
         protected bool BeGreatherThanEigthTeen(DateTime birthDate) => (DateTime.Now - birthDate).TotalDays / 365 > 18;
