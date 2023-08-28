@@ -15,7 +15,7 @@ namespace DevFreela.Infrastructure.Persistence.Repositories
             _connectionString = configuration.GetConnectionString("DevFreelaCs") ?? throw new ArgumentNullException();
         }
 
-        public async Task<List<Skill>> GetAllAsync()
+        public async Task<ICollection<Skill>> GetAllAsync()
         {
             using (var sqlConnection = new SqlConnection(_connectionString))
             {

@@ -18,6 +18,10 @@ namespace DevFreela.Infrastructure.Persistence
 
         public DbSet<UserSkill> UsersSkills { get; set; }
 
+        public DbSet<Role> Roles { get; set; }
+
+        public DbSet<UserRole> UsersRoles { get; set; }
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             

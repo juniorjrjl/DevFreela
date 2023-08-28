@@ -32,11 +32,19 @@ namespace DevFreela.Infrastructure.Persistence.Configurations
 
             builder.Property(p=> p.Active)
                 .HasColumnName("active");
+            
+            builder.Property(p => p.Password)
+                .HasColumnName("password");
         }
 
         protected override void ConfigureForeingKey(EntityTypeBuilder<User> builder)
         {
             builder.HasMany(p => p.UsersSkills)
+                .WithOne()
+                .HasForeignKey(p => p.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasMany(p => p.UsersRoles)
                 .WithOne()
                 .HasForeignKey(p => p.UserId)
                 .OnDelete(DeleteBehavior.Restrict);

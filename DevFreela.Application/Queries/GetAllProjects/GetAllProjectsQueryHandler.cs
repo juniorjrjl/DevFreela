@@ -4,7 +4,7 @@ using MediatR;
 
 namespace DevFreela.Application.Queries.GetAllProjects
 {
-    public class GetAllProjectsQueryHandler : IRequestHandler<GetAllProjectsQuery, List<Project>>
+    public class GetAllProjectsQueryHandler : IRequestHandler<GetAllProjectsQuery, ICollection<Project>>
     {
         private readonly IProjectQueryRepository _projectQueryRepository;
         public GetAllProjectsQueryHandler(IProjectQueryRepository projectQueryRepository)
@@ -12,7 +12,7 @@ namespace DevFreela.Application.Queries.GetAllProjects
             _projectQueryRepository = projectQueryRepository;
         }
 
-        public async Task<List<Project>> Handle(GetAllProjectsQuery query, CancellationToken cancellationToken) => await _projectQueryRepository.GetAllAsync();
+        public async Task<ICollection<Project>> Handle(GetAllProjectsQuery query, CancellationToken cancellationToken) => await _projectQueryRepository.GetAllAsync();
 
     }
 }

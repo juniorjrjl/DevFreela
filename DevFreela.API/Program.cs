@@ -13,6 +13,7 @@ using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,7 +21,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddFluentValidationClientsideAdapters();
 builder.Services.AddValidatorsFromAssemblyContaining<NewProjectInputModelValidator>();
-builder.Services.AddControllers(opt => opt.Filters.Add(typeof(ConstraintValidatorFilter)));
+builder.Services.AddControllers(opt => opt.Filters.Add(typeof(ConstraintValidatorFilter)))
+    .AddJsonOptions(opt =>{
+        opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -34,6 +38,7 @@ builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 builder.Services.AddScoped<ISkillQueryRepository, SkillQueryRepository>();
 builder.Services.AddScoped<IUserQueryRepository, UserQueryRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IRoleQueryRepository, RoleQueryRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 
 builder.Services.AddSwaggerGen(opt =>{
@@ -59,7 +64,7 @@ builder.Services.AddSwaggerGen(opt =>{
                     Id = "Bearer"
                 }
             },
-            new string[] {}
+            Array.Empty<string>()
         }
     });
 });

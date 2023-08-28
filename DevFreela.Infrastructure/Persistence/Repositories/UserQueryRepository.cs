@@ -28,7 +28,10 @@ namespace DevFreela.Infrastructure.Persistence.Repositories
         {
             try
             {
-                return await _dbContext.Users.SingleAsync(p => p.Email == email && p.Password == passwordHash);
+                return await _dbContext.Users
+                    .Include(u => u.UsersRoles)
+                    .ThenInclude(u => u.Role)
+                    .SingleAsync(p => p.Email == email && p.Password == passwordHash);
             }
             catch (Exception ex)
             {

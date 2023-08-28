@@ -1,3 +1,5 @@
+using DevFreela.Core.Enums;
+
 namespace DevFreela.API.InputModel
 {
     public record NewUserInputModel(
@@ -5,7 +7,7 @@ namespace DevFreela.API.InputModel
         string Email, 
         string Password,
         string PasswordConfirm,
-        string Role,
+        ICollection<RoleNameEnum> Roles,
         DateTime BirthDate, 
         ICollection<int>? SkillsId
     );

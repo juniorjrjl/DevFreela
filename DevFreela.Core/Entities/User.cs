@@ -19,7 +19,7 @@ namespace DevFreela.Core.Entities
 
         public string Password { get; set; }
 
-        public string Role { get; set; }
+        public virtual ICollection<UserRole> UsersRoles { get; set; }
 
         public virtual ICollection<UserSkill> UsersSkills { get; set; }
 

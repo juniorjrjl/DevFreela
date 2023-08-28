@@ -12,12 +12,14 @@ namespace DevFreela.Application.Commands.CreateUser
     {
 
         private readonly IUserRepository _userRepository;
+        private readonly IRoleQueryRepository _roleQueryRepository;
         private readonly IMapper _mapper;
         private readonly IAuthService _authService;
 
-        public CreateUserCommandHandler(IUserRepository userRepository, IMapper mapper, IAuthService authService)
+        public CreateUserCommandHandler(IUserRepository userRepository, IRoleQueryRepository roleQueryRepository, IMapper mapper, IAuthService authService)
         {
             _userRepository = userRepository;
+            _roleQueryRepository = roleQueryRepository;
             _mapper = mapper;
             _authService = authService;
         }
@@ -29,6 +31,8 @@ namespace DevFreela.Application.Commands.CreateUser
             if (command.SkillsId is not null && command.SkillsId.Any()){
                 entity.UsersSkills = command.SkillsId.Select(id => new UserSkill{SkillId = id}).ToList();
             }
+            ICollection<Role> roles = command.Roles.Select(async r => await _roleQueryRepository.GetByNameAsync(r)).Select(r => r.Result).ToList();
+            entity.UsersRoles = roles.Select(r => new UserRole{RoleId = r.Id}).ToList();
             return await _userRepository.AddAsync(entity);
         }
     }

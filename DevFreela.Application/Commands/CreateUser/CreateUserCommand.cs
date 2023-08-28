@@ -1,5 +1,6 @@
 using System.Net;
 using DevFreela.Core.Entities;
+using DevFreela.Core.Enums;
 using MediatR;
 
 namespace DevFreela.Application.Commands.CreateUser
@@ -9,7 +10,7 @@ namespace DevFreela.Application.Commands.CreateUser
         string Email, 
         DateTime BirthDate, 
         string Password, 
-        string Role, 
+        ICollection<RoleNameEnum> Roles, 
         ICollection<int>? SkillsId
     ) : IRequest<User>;
 

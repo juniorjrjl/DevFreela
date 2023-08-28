@@ -29,7 +29,8 @@ namespace DevFreela.Application.Commands.UserLogin
             {
                 throw new InvalidCredentialException("Usuário e/ou senha inválidos", ex);
             }
-            return _authService.GenerateJwtToken(entity.Email, entity.Role);
+            var roles = entity.UsersRoles.Select(r => r.Role.Name).ToList();
+            return _authService.GenerateJwtToken(entity.Email, roles);
         }
     }
 

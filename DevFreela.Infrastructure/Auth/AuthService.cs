@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using DevFreela.Core.DTOs;
+using DevFreela.Core.Enums;
 using DevFreela.Core.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -20,7 +21,7 @@ namespace DevFreela.Infrastructure.Auth
             _configuration = configuration;
         }
 
-        public CredentialDTO GenerateJwtToken(string email, string role)
+        public CredentialDTO GenerateJwtToken(string email, ICollection<RoleNameEnum> roles)
         {
             var issuer = _configuration.GetValue<string>("Jwt:Issuer")?? 
                 throw new ArgumentException("A propriedade 'Jwt:Issuer' não foi devidamente configurada");
@@ -35,8 +36,12 @@ namespace DevFreela.Infrastructure.Auth
             var claims = new List<Claim>()
             {
                 new Claim("userName", email),
-                new Claim(ClaimTypes.Role, role),
             };
+
+            foreach(var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role.ToString()));
+            }
 
             var expires = DateTime.Now.AddHours(8);
             var expiresResponse = new DateTimeOffset(expires).ToUnixTimeMilliseconds();
