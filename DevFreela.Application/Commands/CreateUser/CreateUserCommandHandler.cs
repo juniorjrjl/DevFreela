@@ -1,5 +1,6 @@
 using AutoMapper;
 using DevFreela.Core.Entities;
+using DevFreela.Core.Enums;
 using DevFreela.Core.Repositories;
 using DevFreela.Core.Services;
 using DevFreela.Infrastructure.Persistence;
@@ -31,7 +32,13 @@ namespace DevFreela.Application.Commands.CreateUser
             if (command.SkillsId is not null && command.SkillsId.Any()){
                 entity.UsersSkills = command.SkillsId.Select(id => new UserSkill{SkillId = id}).ToList();
             }
-            ICollection<Role> roles = command.Roles.Select(async r => await _roleQueryRepository.GetByNameAsync(r)).Select(r => r.Result).ToList();
+            ICollection<Role> roles = new List<Role>();
+            foreach (RoleNameEnum role in command.Roles)
+            {
+                var roleEntity = await _roleQueryRepository.GetByNameAsync(role);
+                roles.Add(roleEntity);
+            }
+        
             entity.UsersRoles = roles.Select(r => new UserRole{RoleId = r.Id}).ToList();
             return await _userRepository.AddAsync(entity);
         }

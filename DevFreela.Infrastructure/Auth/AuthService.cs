@@ -14,12 +14,9 @@ namespace DevFreela.Infrastructure.Auth
     public class AuthService : IAuthService
     {
 
-        public IConfiguration _configuration;
+        private readonly IConfiguration _configuration;
 
-        public AuthService(IConfiguration configuration)
-        {
-            _configuration = configuration;
-        }
+        public AuthService(IConfiguration configuration) => _configuration = configuration;
 
         public CredentialDTO GenerateJwtToken(string email, ICollection<RoleNameEnum> roles)
         {
@@ -35,7 +32,7 @@ namespace DevFreela.Infrastructure.Auth
 
             var claims = new List<Claim>()
             {
-                new Claim("userName", email),
+                new("userName", email),
             };
 
             foreach(var role in roles)
@@ -60,19 +57,17 @@ namespace DevFreela.Infrastructure.Auth
 
         public string ComputeSha256Hash(string password)
         {
-            using(var sha256Hash = SHA256.Create())
+            using var sha256Hash = SHA256.Create();
+
+            byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(password));
+
+            StringBuilder builder = new();
+
+            for (int i = 0; i < bytes.Length; i++)
             {
-
-                byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(password));
-
-                StringBuilder builder = new StringBuilder();
-
-                for (int i = 0; i < bytes.Length; i++)
-                {
-                    builder.Append(bytes[i].ToString("x2"));
-                }
-                return builder.ToString();
+                builder.Append(bytes[i].ToString("x2"));
             }
+            return builder.ToString();
         }
 
     }

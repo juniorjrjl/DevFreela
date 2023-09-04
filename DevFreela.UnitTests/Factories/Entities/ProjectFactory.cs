@@ -2,13 +2,13 @@ using Bogus;
 using DevFreela.Core.Entities;
 using DevFreela.Core.Enums;
 
-namespace DevFreela.UnitTests.Factories
+namespace DevFreela.UnitTests.Factories.Entities
 {
     
     public class ProjectFactory: Faker<Project>
     {
 
-        public ProjectFactory()
+        private ProjectFactory()
         {
             Locale = "pt_BR";
             RuleFor(p => p.Id, f=> f.Random.Number(1, int.MaxValue));
@@ -20,6 +20,8 @@ namespace DevFreela.UnitTests.Factories
             RuleFor(p => p.StartedAt, f => f.Date.Recent());
             RuleFor(p => p.FinishedAt, f => f.Date.Recent());
         }
+
+        public static ProjectFactory Instance() => new();
 
     }
 

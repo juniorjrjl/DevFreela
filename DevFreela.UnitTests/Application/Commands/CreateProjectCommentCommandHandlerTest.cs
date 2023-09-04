@@ -2,7 +2,8 @@ using AutoMapper;
 using DevFreela.Application.Commands.CreateProjectComment;
 using DevFreela.Core.Entities;
 using DevFreela.Core.Repositories;
-using DevFreela.UnitTests.Factories;
+using DevFreela.UnitTests.Factories.Entities;
+using DevFreela.UnitTests.Factories.Commands;
 using NSubstitute;
 using NSubstitute.ExceptionExtensions;
 using Xunit;
@@ -30,9 +31,9 @@ namespace DevFreela.UnitTests.Application.Commands
         public async void InputDataIsOk_Executed_ReturnProject()
         {
             // Arrenge
-            var createProjectCommentCommand = new CreateProjectCommentCommandFactory().Generate();
-            var project = new ProjectFactory().Generate();
-            var projectComment = new ProjectCommentFactory().Generate();
+            var createProjectCommentCommand = CreateProjectCommentCommandFactory.Instance().Generate();
+            var project = ProjectFactory.Instance().Generate();
+            var projectComment = ProjectCommentFactory.Instance().Generate();
             projectQueryRepository.GetByIdAsync(createProjectCommentCommand.ProjectId?? throw new ArgumentException()).Returns(Task.FromResult(project));
             mapper.Map<ProjectComment>(createProjectCommentCommand).Returns(projectComment);
             projectRepository.AddCommentAsync(projectComment).Returns(Task.FromResult(projectComment));
@@ -49,7 +50,7 @@ namespace DevFreela.UnitTests.Application.Commands
         public async void InputDataWithoutProjectID_Executed_ThrowError()
         {
             // Arrenge
-            var createProjectCommentCommand = new CreateProjectCommentCommandFactory().RuleFor(p => p.ProjectId,f => null).Generate();
+            var createProjectCommentCommand = CreateProjectCommentCommandFactory.Instance().RuleFor(p => p.ProjectId,f => null).Generate();
             // Act
             var actual = await Assert.ThrowsAsync<ArgumentException>(() => createProjectCommentCommandHandler.Handle(createProjectCommentCommand, new CancellationToken()));
             // Assert
@@ -64,7 +65,7 @@ namespace DevFreela.UnitTests.Application.Commands
         public async void InputDataReferANonStoredProject_Executed_ThrowError()
         {
             // Arrenge
-            var createProjectCommentCommand = new CreateProjectCommentCommandFactory().Generate();
+            var createProjectCommentCommand = CreateProjectCommentCommandFactory.Instance().Generate();
             var exception = new ArgumentNullException($"Projeto {createProjectCommentCommand.ProjectId} não encontrado");
             projectQueryRepository.GetByIdAsync(createProjectCommentCommand.ProjectId?? throw new ArgumentException()).ThrowsAsync(exception);
             // Act

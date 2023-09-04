@@ -1,13 +1,13 @@
 using Bogus;
 using DevFreela.Core.Entities;
 
-namespace DevFreela.UnitTests.Factories
+namespace DevFreela.UnitTests.Factories.Entities
 {
     
     public class UserFactory: Faker<User>
     {
 
-        public UserFactory()
+        private UserFactory()
         {
             Locale = "pt_BR";
             RuleFor(p => p.Id, f=> f.Random.Number(1, int.MaxValue));
@@ -18,6 +18,8 @@ namespace DevFreela.UnitTests.Factories
             RuleFor(p => p.Active, f => f.Random.Bool());
             RuleFor(p => p.Password, f => f.Lorem.Word());
         }
+
+        public static UserFactory Instance() => new();
 
     }
 

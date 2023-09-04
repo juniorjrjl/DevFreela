@@ -1,23 +1,21 @@
-using System.Reflection;
 using DevFreela.Application.Queries.GetAllProjects;
-using DevFreela.Core.Entities;
 using DevFreela.Core.Repositories;
-using DevFreela.UnitTests.Factories;
+using DevFreela.UnitTests.Factories.Entities;
+using DevFreela.UnitTests.Factories.Queries;
 using NSubstitute;
 using Xunit;
-using Xunit.Sdk;
 
 namespace DevFreela.UnitTests.Application.Queries
 {
     
-    public class GetAllProjectsCommandHandlerTests
+    public class GetAllProjectsCommandHandlerTest
     {
 
-        private GetAllProjectsQueryHandler getAllProjectsQueryHandler;
+        private readonly GetAllProjectsQueryHandler getAllProjectsQueryHandler;
 
-        private IProjectQueryRepository projectQueryRepositoryMock;
+        private readonly IProjectQueryRepository projectQueryRepositoryMock;
 
-        public GetAllProjectsCommandHandlerTests()
+        public GetAllProjectsCommandHandlerTest()
         {
             projectQueryRepositoryMock = Substitute.For<IProjectQueryRepository>();
             getAllProjectsQueryHandler = new GetAllProjectsQueryHandler(projectQueryRepositoryMock);
@@ -27,9 +25,9 @@ namespace DevFreela.UnitTests.Application.Queries
         public async void HasThreeProjects_Executed_ReturnThreeProjectViewModels()
         {
             // Arrange
-            var projects = new ProjectFactory().Generate(3);
+            var projects = ProjectFactory.Instance().Generate(3);
             projectQueryRepositoryMock.GetAllAsync().Returns(projects);
-            var query = new GetAllProjectsQueryFactory().Generate();
+            var query = GetAllProjectsQueryFactory.Instance().Generate();
             // Act
             var actual = await getAllProjectsQueryHandler.Handle(query, new CancellationToken());
             //Assert

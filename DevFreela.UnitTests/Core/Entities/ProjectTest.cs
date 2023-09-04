@@ -1,7 +1,7 @@
 using Bogus;
 using DevFreela.Core.Enums;
 using DevFreela.Core.Exceptions;
-using DevFreela.UnitTests.Factories;
+using DevFreela.UnitTests.Factories.Entities;
 using Xunit;
 
 namespace DevFreela.UnitTests.Core.Entities
@@ -15,7 +15,7 @@ namespace DevFreela.UnitTests.Core.Entities
         [Fact]
         public void WhenProjectCreatedThenStartIt()
         {
-            var project = new ProjectFactory().RuleFor(p => p.Status, f => ProjectStatusEnum.CREATED).Generate();
+            var project = ProjectFactory.Instance().RuleFor(p => p.Status, f => ProjectStatusEnum.CREATED).Generate();
             project.Start();
             Assert.NotNull(project.StartedAt);
             Assert.Equal(ProjectStatusEnum.IN_PROGRESS, project.Status);
@@ -24,7 +24,7 @@ namespace DevFreela.UnitTests.Core.Entities
         [Fact]
         public void WhenProjectIsNotCreatedThenThrowError()
         {
-            var project = new ProjectFactory().RuleFor(p => p.Status, f => faker.PickRandomWithout(ProjectStatusEnum.CREATED)).Generate();
+            var project = ProjectFactory.Instance().RuleFor(p => p.Status, f => faker.PickRandomWithout(ProjectStatusEnum.CREATED)).Generate();
             var ex = Assert.Throws<ProjectStatusException>(() => project.Start());
             Assert.Equal($"O projeto {project.Id} não pode ser iniciado porque ele não está no Status 'CREATED'", ex.Message);
         }
@@ -32,7 +32,7 @@ namespace DevFreela.UnitTests.Core.Entities
         [Fact]
         public void WhenProjectInProgressThenFinishIt()
         {
-            var project = new ProjectFactory().RuleFor(p => p.Status, f => ProjectStatusEnum.IN_PROGRESS).Generate();
+            var project = ProjectFactory.Instance().RuleFor(p => p.Status, f => ProjectStatusEnum.IN_PROGRESS).Generate();
             project.Finish();
             Assert.NotNull(project.FinishedAt);
             Assert.Equal(ProjectStatusEnum.FINISHED, project.Status);
@@ -41,7 +41,7 @@ namespace DevFreela.UnitTests.Core.Entities
         [Fact]
         public void WhenProjectIsNotInProgressThenThrowError()
         {
-            var project = new ProjectFactory().RuleFor(p => p.Status, f => faker.PickRandomWithout(ProjectStatusEnum.IN_PROGRESS)).Generate();
+            var project = ProjectFactory.Instance().RuleFor(p => p.Status, f => faker.PickRandomWithout(ProjectStatusEnum.IN_PROGRESS)).Generate();
             var ex = Assert.Throws<ProjectStatusException>(() => project.Finish());
             Assert.Equal($"O projeto {project.Id} não pode ser finalizado porque ele não está no Status 'IN_PROGRESS'", ex.Message);
         }
@@ -52,7 +52,7 @@ namespace DevFreela.UnitTests.Core.Entities
         [InlineData(ProjectStatusEnum.SUSPENDED)]
         public void WhenProjectNotCancelledOrFinishedThenCancelIt(ProjectStatusEnum status)
         {
-            var project = new ProjectFactory().RuleFor(p => p.Status, f => status).Generate();
+            var project = ProjectFactory.Instance().RuleFor(p => p.Status, f => status).Generate();
             project.Cancel();
             Assert.Equal(ProjectStatusEnum.CANCELED, project.Status);
         }
@@ -60,7 +60,7 @@ namespace DevFreela.UnitTests.Core.Entities
         [Fact]
         public void WhenProjectIsCancelledOrFinishedThenThrowError()
         {
-            var project = new ProjectFactory().RuleFor(p => p.Status, f => faker.PickRandom(ProjectStatusEnum.CANCELED, ProjectStatusEnum.FINISHED)).Generate();
+            var project = ProjectFactory.Instance().RuleFor(p => p.Status, f => faker.PickRandom(ProjectStatusEnum.CANCELED, ProjectStatusEnum.FINISHED)).Generate();
             var ex = Assert.Throws<ProjectStatusException>(() => project.Cancel());
             Assert.Equal($"O projeto {project.Id} não pode ser cancelado porque está no status '{project.Status}'", ex.Message);
         }
