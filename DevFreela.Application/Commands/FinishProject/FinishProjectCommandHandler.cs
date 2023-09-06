@@ -1,7 +1,7 @@
 using DevFreela.Core.Repositories;
 using MediatR;
 
-namespace DevFreela.Application.Commands.DeleteProject
+namespace DevFreela.Application.Commands.FinishProject
 {
 
     public class FinishProjectCommandHandler : IRequestHandler<FinishProjectCommand>

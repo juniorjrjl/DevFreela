@@ -1,4 +1,3 @@
-using System.Net;
 using DevFreela.Core.Entities;
 using MediatR;
 

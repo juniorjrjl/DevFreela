@@ -1,8 +1,6 @@
-using System.Net;
-using DevFreela.Core.Entities;
 using MediatR;
 
-namespace DevFreela.Application.Commands.DeleteProject
+namespace DevFreela.Application.Commands.FinishProject
 {
     public record FinishProjectCommand(int Id) : IRequest;
 
