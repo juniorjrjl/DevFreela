@@ -5,7 +5,7 @@ namespace DevFreela.Core.Repositories
     public interface IProjectQueryRepository
     {
 
-        Task<ICollection<Project>> GetAllAsync();
+        Task<List<Project>> GetAllAsync(string? query);
 
         Task<Project> GetByIdAsync(int id);
 

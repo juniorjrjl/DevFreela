@@ -9,6 +9,7 @@ using DevFreela.Application.Commands.StartProject;
 using DevFreela.Application.Commands.UpdateProject;
 using DevFreela.Application.Queries.GetAllProjects;
 using DevFreela.Application.Queries.GetProjectById;
+using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -30,7 +31,7 @@ namespace DevFreela.API.Controllers
 
         [HttpGet]
         [Authorize(Roles = "CLIENT, FREELANCER, ADMIN")]
-        public async Task<IActionResult> Get(string query)
+        public async Task<IActionResult> Get([FromQuery]string? query)
         {
             var entity = await _mediator.Send(new GetAllProjectsQuery(query));
             var viewModel = _mapper.Map<List<ProjectViewModel>>(entity);
