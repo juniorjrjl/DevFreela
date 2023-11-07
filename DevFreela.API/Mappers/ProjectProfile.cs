@@ -4,6 +4,7 @@ using DevFreela.API.ViewModel;
 using DevFreela.Application.Commands.CreateProject;
 using DevFreela.Application.Commands.UpdateProject;
 using DevFreela.Core.Entities;
+using DevFreela.Core.Persistence.model;
 
 namespace DevFreela.API.Mappers
 {
@@ -22,6 +23,7 @@ namespace DevFreela.API.Mappers
             CreateMap<CreateCommentInputModel, ProjectComment>();
             CreateMap<CreateProjectCommand, Project>();
             CreateMap<UpdateProjectCommand, Project>();
+            CreateMap<PaginationResult<Project>, PaginationResult<ProjectViewModel>>();
         }
 
     }

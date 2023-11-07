@@ -28,16 +28,15 @@ namespace DevFreela.UnitTests.Application.Queries
         public async void HasThreeProjects_Executed_ReturnThreeProjectViewModels()
         {
             // Arrange
-            var projects = ProjectFactory.Instance().Generate(3);
+            var projects = PaginationResultProjectFactory.Instance().Generate();
             var query = GetAllProjectsQueryFactory.Instance().Generate();
-            projectQueryRepositoryMock.GetAllAsync(query.Query).Returns(projects);
+            projectQueryRepositoryMock.GetAllAsync(query.Query, query.Page).Returns(projects);
             // Act
             var actual = await getAllProjectsQueryHandler.Handle(query, new CancellationToken());
             //Assert
             Assert.NotNull(actual);
-            Assert.NotEmpty(actual);
-            Assert.Equal(actual.Count, projects.Count);
-            _ = projectQueryRepositoryMock.Received().GetAllAsync(query.Query);
+            Assert.NotEmpty(actual.Data);
+            _ = projectQueryRepositoryMock.Received().GetAllAsync(query.Query, query.Page);
         }
 
     }
