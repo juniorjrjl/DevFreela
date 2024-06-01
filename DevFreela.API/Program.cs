@@ -40,6 +40,7 @@ builder.Services.AddScoped<IUserQueryRepository, UserQueryRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRoleQueryRepository, RoleQueryRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddSwaggerGen(opt =>{
     opt.SwaggerDoc("v1", new OpenApiInfo { Title= "DevFreela.API", Version = "v1" });
