@@ -1,21 +1,29 @@
-namespace DevFreela.Core.Entities
+namespace DevFreela.Core.Entities;
+
+public class ProjectComment
 {
-    public class ProjectComment
+
+    public ProjectComment(){}
+
+    public ProjectComment(string content, int projectId, int userId)
     {
-
-        public int Id { get; set;}
-
-        public string Comment { get; set; }
-
-        public int ProjectId { get; set; }
-        
-        public virtual Project Project { get; set; }
-
-        public int UserId { get; set; }
-
-        public virtual User User { get; set; }
-
-        public DateTime CreatedAt { get; set; }
-
+        Comment = content;
+        ProjectId = projectId;
+        UserId = userId;
     }
+
+    public int Id { get; private set; }
+
+    public string Comment { get; private set; }
+
+    public int ProjectId { get; private set; }
+    
+    public virtual Project Project { get; private set; }
+
+    public int UserId { get; private set; }
+
+    public virtual User User { get; private set; }
+
+    public DateTime CreatedAt { get; private set; }
+
 }

@@ -1,15 +1,23 @@
 
-namespace DevFreela.Core.Entities
+namespace DevFreela.Core.Entities;
+
+public class Skill
 {
-    public class Skill
+    public Skill(){}
+    public Skill(int id, string description, DateTime createdAt, ICollection<UserSkill> usersSkills)
     {
-
-        public int Id { get; set;}
-
-        public string Description { get; set; }
-
-        public DateTime CreatedAt { get; set; }
-
-        public virtual ICollection<UserSkill> UsersSkills { get; set; }
+        Id = id;
+        Description = description;
+        CreatedAt = createdAt;
+        UsersSkills = usersSkills;
     }
+
+    public int Id { get; private set; }
+
+    public string Description { get; private set; }
+
+    public DateTime CreatedAt { get; private set; }
+
+    public virtual ICollection<UserSkill> UsersSkills { get; private set; }
+    
 }

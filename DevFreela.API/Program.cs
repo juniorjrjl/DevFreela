@@ -1,19 +1,16 @@
-using DevFreela.Application.Commands.CreateProject;
-using DevFreela.Core.Repositories;
-using DevFreela.Infrastructure.Persistence;
-using DevFreela.Infrastructure.Persistence.Repositories;
-using Microsoft.EntityFrameworkCore;
+using DevFreela.API.Mappers;
+using DevFreela.Application;
+using DevFreela.Infrastructure;
 using DevFreela.API.Filters;
 using FluentValidation.AspNetCore;
 using DevFreela.API.Validators;
 using FluentValidation;
-using DevFreela.Core.Services;
-using DevFreela.Infrastructure.Auth;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Text.Json.Serialization;
+using DevFreela.Infrastructure.Seeder;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,17 +27,15 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var connectionString = Environment.GetEnvironmentVariable("ConnectionStrings_DevFreelaCs");
-builder.Services.AddDbContext<DevFreelaDbContext>(o=> o.UseSqlServer(connectionString));
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateProjectCommand).Assembly));
-builder.Services.AddScoped<IProjectQueryRepository, ProjectQueryRepository>();
-builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
-builder.Services.AddScoped<ISkillQueryRepository, SkillQueryRepository>();
-builder.Services.AddScoped<IUserQueryRepository, UserQueryRepository>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IRoleQueryRepository, RoleQueryRepository>();
-builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+ArgumentNullException.ThrowIfNull(connectionString);
+builder.Services.AddDBContext(connectionString);
+builder.Services.AddScoped<IProjetcMapper, ProjetcMapper>();
+builder.Services.AddScoped<IUserMapper, UserMapper>();
+builder.Services.AddScoped<ISkillMapper, SkillMapper>();
+builder.Services.AddApplicationMappers();
+builder.Services.AddCommands();
+builder.Services.AddRepositories(connectionString);
+builder.Services.AddServices();
 
 builder.Services.AddSwaggerGen(opt =>{
     opt.SwaggerDoc("v1", new OpenApiInfo { Title= "DevFreela.API", Version = "v1" });
@@ -91,6 +86,8 @@ builder.Services.AddAuthentication(opt =>{
 });
 
 var app = builder.Build();
+
+DBSeeder.Seed(app.Services);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

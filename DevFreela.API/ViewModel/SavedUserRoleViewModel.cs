@@ -1,5 +1,4 @@
-namespace DevFreela.API.ViewModel
-{
-    public record SavedUserRoleViewModel(int Id, string Name);
-    
-}
+namespace DevFreela.API.ViewModel;
+
+public record SavedUserRoleViewModel(int Id, string Name);
+

@@ -1,31 +1,30 @@
-using AutoMapper;
+using DevFreela.Application.Mapper;
 using DevFreela.Core.Entities;
 using DevFreela.Core.Repositories;
+using DevFreela.Infrastructure.Persistence;
 using MediatR;
 
-namespace DevFreela.Application.Commands.CreateProjectComment
+namespace DevFreela.Application.Commands.CreateProjectComment;
+
+
+public class CreateProjectCommentCommandHandler : IRequestHandler<CreateProjectCommentCommand, ProjectComment>
 {
 
-    public class CreateProjectCommentCommandHandler : IRequestHandler<CreateProjectCommentCommand, ProjectComment>
+    private readonly IUnitOfWork _unitOfWork;
+    private readonly IProjectCommentMapper _mapper;
+
+    public CreateProjectCommentCommandHandler(IUnitOfWork unitOfWork, IProjectCommentMapper mapper)
     {
-
-        private readonly IProjectRepository _projectRepository; 
-        private readonly IProjectQueryRepository _projectQueryRepository;
-        private readonly IMapper _mapper;
-
-        public CreateProjectCommentCommandHandler(IProjectRepository projectRepository, IProjectQueryRepository projectQueryRepository, IMapper mapper)
-        {
-            _projectRepository = projectRepository;
-            _projectQueryRepository = projectQueryRepository;
-            _mapper = mapper;
-        }
-
-        public async Task<ProjectComment> Handle(CreateProjectCommentCommand command, CancellationToken cancellationToken)
-        {
-            await _projectQueryRepository.GetByIdAsync(command.ProjectId?? throw new ArgumentException("O comentário deve referenciar um projeto"));
-            var entity = _mapper.Map<ProjectComment>(command);
-            return await _projectRepository.AddCommentAsync(entity);
-        }
+        _unitOfWork = unitOfWork;
+        _mapper = mapper;
     }
 
+    public async Task<ProjectComment> Handle(CreateProjectCommentCommand command, CancellationToken cancellationToken)
+    {
+        await _unitOfWork.ProjectQueryRepository.GetByIdAsync(command.ProjectId);
+        var entity = _mapper.ToEntity(command);
+        entity = await _unitOfWork.ProjectRepository.AddCommentAsync(entity);
+        await _unitOfWork.CompleteAsync();
+        return entity;
+    }
 }

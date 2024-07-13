@@ -1,10 +1,8 @@
-
 using DevFreela.Core.Entities;
 
-namespace DevFreela.Core.Repositories
+namespace DevFreela.Core.Repositories;
+
+public interface ISkillQueryRepository
 {
-    public interface ISkillQueryRepository
-    {
-        Task<ICollection<Skill>> GetAllAsync();
-    }
+    Task<ICollection<Skill>> GetAllAsync();
 }

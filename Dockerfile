@@ -16,6 +16,6 @@ COPY . .
 
 RUN dotnet restore DevFreela.API/DevFreela.API.csproj
 
-RUN dotnet tool install --global dotnet-ef
+RUN dotnet tool install --global dotnet-ef --version 7.0.9
 
 ENV PATH="$PATH:/root/.dotnet/tools"

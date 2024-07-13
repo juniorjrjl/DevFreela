@@ -1,33 +1,31 @@
-using AutoMapper;
-using DevFreela.API.ViewModel;
+using DevFreela.API.Mappers;
 using DevFreela.Application.Queries.GetAllSkills;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DevFreela.API.Controllers
+namespace DevFreela.API.Controllers;
+
+[Route("api/skills")]
+[Authorize]
+public class SkillsController : ControllerBase
 {
-    [Route("api/skills")]
-    [Authorize]
-    public class SkillsController : ControllerBase
+
+    private readonly IMediator _mediator;
+    private readonly ISkillMapper _mapper;
+
+    public SkillsController(IMediator mediator, ISkillMapper mapper)
     {
-
-
-        public readonly IMediator _mediator;
-        private readonly IMapper _mapper;
-        public SkillsController(IMediator mediator, IMapper mapper)
-        {
-            _mediator = mediator;
-            _mapper = mapper;
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> Get()
-        {
-            var entity = await _mediator.Send(new GetAllSkillsQuery());
-            var viewModel = _mapper.Map<SkillViewModel>(entity);
-            return Ok(viewModel);
-        }
-
+        _mediator = mediator;
+        _mapper = mapper;
     }
+
+    [HttpGet]
+    public async Task<IActionResult> Get()
+    {
+        var entity = await _mediator.Send(new GetAllSkillsQuery());
+        var viewModel = _mapper.ToViewModel(entity);
+        return Ok(viewModel);
+    }
+
 }

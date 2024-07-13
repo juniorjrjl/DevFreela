@@ -1,30 +1,28 @@
-using AutoMapper;
+using DevFreela.Application.Mapper;
 using DevFreela.Core.Entities;
-using DevFreela.Core.Repositories;
+using DevFreela.Infrastructure.Persistence;
 using MediatR;
 
-namespace DevFreela.Application.Commands.UpdateProject
+namespace DevFreela.Application.Commands.UpdateProject;
+
+public class UpdateProjectCommandHandler : IRequestHandler<UpdateProjectCommand, Project>
 {
 
-    public class UpdateProjectCommandHandler : IRequestHandler<UpdateProjectCommand, Project>
+    private readonly IUnitOfWork _unitOfWork;
+    private readonly IProjectMapper _mapper;
+
+    public UpdateProjectCommandHandler(IUnitOfWork unitOfWork, IProjectMapper mapper)
     {
+        _unitOfWork = unitOfWork;
+        _mapper  = mapper;
+    }
 
-        private readonly IProjectRepository _projectRepository;
-        private readonly IProjectQueryRepository _projectQueryRepository;
-        private readonly IMapper _mapper;
-
-        public UpdateProjectCommandHandler(IProjectRepository projectRepository, IProjectQueryRepository projectQueryRepository, IMapper mapper)
-        {
-            _projectRepository = projectRepository;
-            _projectQueryRepository = projectQueryRepository;
-            _mapper  = mapper;
-        }
-
-        public async Task<Project> Handle(UpdateProjectCommand command, CancellationToken cancellationToken)
-        {
-            Project toUpdate = await _projectQueryRepository.GetByIdAsync(command.Id?? throw new ArgumentNullException("id"));
-            toUpdate = _mapper.Map(command, toUpdate);
-            return await _projectRepository.UpdateAsync(toUpdate);
-        }
+    public async Task<Project> Handle(UpdateProjectCommand command, CancellationToken cancellationToken)
+    {
+        Project toUpdate = await _unitOfWork.ProjectQueryRepository.GetByIdAsync(command.Id);
+        toUpdate = _mapper.ToEntity(command, toUpdate);
+        toUpdate = await _unitOfWork.ProjectRepository.UpdateAsync(toUpdate);
+        await _unitOfWork.CompleteAsync();
+        return toUpdate;
     }
 }

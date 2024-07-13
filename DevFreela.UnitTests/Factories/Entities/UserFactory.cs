@@ -1,26 +1,45 @@
 using Bogus;
 using DevFreela.Core.Entities;
 
-namespace DevFreela.UnitTests.Factories.Entities
+namespace DevFreela.UnitTests.Factories.Entities;
+
+
+public class UserFactory: Faker<User>
 {
-    
-    public class UserFactory: Faker<User>
+
+    private ICollection<UserRole> _usersRoles = new List<UserRole>();
+    private ICollection<UserSkill> _usersSkills = new List<UserSkill>();
+    private UserFactory()
     {
+        Locale = "pt_BR";
+        CustomInstantiator
+        (p =>
+            new
+            (
+                p.Lorem.Word(),
+                p.Internet.Email(),
+                p.Date.Recent(),
+                p.Lorem.Word(),
+                _usersRoles,
+                _usersSkills
+            )
+        );
+    }
 
-        private UserFactory()
-        {
-            Locale = "pt_BR";
-            RuleFor(p => p.Id, f=> f.Random.Number(1, int.MaxValue));
-            RuleFor(p => p.Name, f => f.Lorem.Word());
-            RuleFor(p => p.Email, f => f.Internet.Email());
-            RuleFor(p => p.BirthDate, f => f.Date.Recent());
-            RuleFor(p => p.CreatedAt, f => f.Date.Recent());
-            RuleFor(p => p.Active, f => f.Random.Bool());
-            RuleFor(p => p.Password, f => f.Lorem.Word());
-        }
+    
 
-        public static UserFactory Instance() => new();
+    public static UserFactory Instance() => new();
 
+    public UserFactory WithUsersSkills(ICollection<UserSkill> usersSkills)
+    {
+        _usersSkills = usersSkills;
+        return this;
+    }
+
+        public UserFactory WithUsersRoles(ICollection<UserRole> usersRoles)
+    {
+        _usersRoles = usersRoles;
+        return this;
     }
 
 }

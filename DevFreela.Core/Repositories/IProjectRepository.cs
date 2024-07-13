@@ -1,14 +1,13 @@
 using DevFreela.Core.Entities;
 
-namespace DevFreela.Core.Repositories
+namespace DevFreela.Core.Repositories;
+
+public interface IProjectRepository
 {
-    public interface IProjectRepository
-    {
-        Task<Project> AddAsync(Project project);
+    Task<Project> AddAsync(Project project);
 
-        Task<ProjectComment> AddCommentAsync(ProjectComment projectComment);
+    Task<ProjectComment> AddCommentAsync(ProjectComment projectComment);
 
-        Task<Project> UpdateAsync(Project project);
+    Task<Project> UpdateAsync(Project project);
 
-    }
 }

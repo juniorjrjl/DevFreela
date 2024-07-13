@@ -1,29 +1,39 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Linq.Expressions;
 using DevFreela.Core.Repositories;
 
-namespace DevFreela.Infrastructure.Persistence
+namespace DevFreela.Infrastructure.Persistence;
+
+public interface IUnitOfWork
 {
-    public interface IUnitOfWork
-    {
-        
-        IProjectRepository ProjectRepository { get;  }
+    
+    IProjectRepository ProjectRepository { get;  }
 
-        IProjectQueryRepository ProjectQueryRepository { get; }
+    IProjectQueryRepository ProjectQueryRepository { get; }
 
-        IUserRepository UserRepository { get;  }
+    IUserRepository UserRepository { get;  }
 
-        IUserQueryRepository UserQueryRepository { get; }
+    IUserQueryRepository UserQueryRepository { get; }
 
-        ISkillQueryRepository SkillQueryRepository { get; }
+    ISkillQueryRepository SkillQueryRepository { get; }
 
-        Task<int> CompleteAsync();
+    IRoleRepository RoleRepository { get; }
 
-        Task BeginTransactionAsync();
+    IRoleQueryRepository RoleQueryRepository { get; }
 
-        Task CommitAsync();
+    Task<int> CompleteAsync();
 
-    }
+    Task BeginTransactionAsync();
+
+    Task CommitAsync();
+
+    Task RollBackAsync();
+
+    Task IncludeListAsync<TEntity, TProperty, TPropertyPath>(
+        TEntity entity, 
+        Expression<Func<TEntity, IEnumerable<TProperty>>> 
+        propertyExpression,Expression<Func<TProperty, TPropertyPath>> navigationPropertyPath
+    ) 
+    where TProperty : 
+    class where TEntity : class;
+
 }

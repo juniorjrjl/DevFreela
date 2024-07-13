@@ -1,7 +1,5 @@
 using MediatR;
 
-namespace DevFreela.Application.Commands.FinishProject
-{
-    public record FinishProjectCommand(int Id) : IRequest;
+namespace DevFreela.Application.Commands.FinishProject;
 
-}
+public record FinishProjectCommand(int Id) : IRequest;

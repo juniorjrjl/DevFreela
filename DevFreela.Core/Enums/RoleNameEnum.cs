@@ -1,9 +1,8 @@
-namespace DevFreela.Core.Enums
+namespace DevFreela.Core.Enums;
+
+public enum RoleNameEnum
 {
-    public enum RoleNameEnum
-    {
-        CLIENT,
-        FREELANCER,
-        ADMIN
-    }
+    CLIENT,
+    FREELANCER,
+    ADMIN
 }

@@ -1,47 +1,75 @@
-using AutoMapper;
+using DevFreela.Application.Mapper;
 using DevFreela.Core.Entities;
 using DevFreela.Core.Enums;
-using DevFreela.Core.Repositories;
 using DevFreela.Core.Services;
 using DevFreela.Infrastructure.Persistence;
 using MediatR;
 
-namespace DevFreela.Application.Commands.CreateUser
+namespace DevFreela.Application.Commands.CreateUser;
+
+
+public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, User>
 {
 
-    public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, User>
+    private readonly IUnitOfWork _unitOfWork;
+    private readonly IUserMapper _mapper;
+    private readonly IAuthService _authService;
+
+    public CreateUserCommandHandler(IUnitOfWork unitOfWork, IUserMapper mapper, IAuthService authService)
     {
+        _unitOfWork = unitOfWork;
+        _mapper = mapper;
+        _authService = authService;
+    }
 
-        private readonly IUserRepository _userRepository;
-        private readonly IRoleQueryRepository _roleQueryRepository;
-        private readonly IMapper _mapper;
-        private readonly IAuthService _authService;
+    public async Task<User> Handle(CreateUserCommand command, CancellationToken cancellationToken)
+    {
+        command = command with { Password = _authService.ComputeSha256Hash(command.Password) };
 
-        public CreateUserCommandHandler(IUserRepository userRepository, IRoleQueryRepository roleQueryRepository, IMapper mapper, IAuthService authService)
+        try
         {
-            _userRepository = userRepository;
-            _roleQueryRepository = roleQueryRepository;
-            _mapper = mapper;
-            _authService = authService;
-        }
+            await _unitOfWork.BeginTransactionAsync();
+            var userRoles = await ToUserRoleAsync(command.Roles);
+            var userSkills = ToUserSkills(command.SkillsId);
+            var entity = _mapper.ToEntity(command, userRoles, userSkills);
 
-        public async Task<User> Handle(CreateUserCommand command, CancellationToken cancellationToken)
+            entity = await _unitOfWork.UserRepository.AddAsync(entity);
+            await _unitOfWork.CompleteAsync();
+            await _unitOfWork.CommitAsync();
+            await _unitOfWork.IncludeListAsync(entity, u => u.UsersSkills, u => u.Skill);
+            await _unitOfWork.IncludeListAsync(entity, u => u.UsersRoles, u => u.Role);
+            return entity;
+        } catch (Exception)
         {
-            command = command with { Password = _authService.ComputeSha256Hash(command.Password) };
-            var entity = _mapper.Map<User>(command);
-            if (command.SkillsId is not null && command.SkillsId.Any()){
-                entity.UsersSkills = command.SkillsId.Select(id => new UserSkill{SkillId = id}).ToList();
-            }
-            ICollection<Role> roles = new List<Role>();
-            foreach (RoleNameEnum role in command.Roles)
-            {
-                var roleEntity = await _roleQueryRepository.GetByNameAsync(role);
-                roles.Add(roleEntity);
-            }
-        
-            entity.UsersRoles = roles.Select(r => new UserRole{RoleId = r.Id}).ToList();
-            return await _userRepository.AddAsync(entity);
+            await _unitOfWork.RollBackAsync();
+            throw;
         }
+    }
+
+    private async Task<ICollection<UserRole>> ToUserRoleAsync(ICollection<RoleNameEnum> rolesNames)
+    {
+        if (rolesNames is null || !rolesNames.Any())
+        {
+            return new List<UserRole>();
+        }
+        ICollection<Role> roles = new List<Role>();
+        foreach (RoleNameEnum role in rolesNames)
+        {
+            var roleEntity = await _unitOfWork.RoleQueryRepository.GetByNameAsync(role);
+            roles.Add(roleEntity);
+        }
+        return roles.Select(r => new UserRole(r.Id)).ToList();
+    }
+
+    private static ICollection<UserSkill> ToUserSkills(ICollection<int>? skillsId)
+    {
+        ICollection<UserSkill> userSkills = new List<UserSkill>();
+        if (skillsId is null || !skillsId.Any())
+        {
+            return userSkills;
+        }
+        userSkills = skillsId.Select(id => new UserSkill(id)).ToList();
+        return userSkills;
     }
 
 }

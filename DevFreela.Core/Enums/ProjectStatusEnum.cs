@@ -1,11 +1,10 @@
-namespace DevFreela.Core.Enums
+namespace DevFreela.Core.Enums;
+
+public enum ProjectStatusEnum
 {
-    public enum ProjectStatusEnum
-    {
-        CREATED,
-        IN_PROGRESS,
-        SUSPENDED,
-        CANCELED,
-        FINISHED
-    }
+    CREATED,
+    IN_PROGRESS,
+    SUSPENDED,
+    CANCELED,
+    FINISHED
 }

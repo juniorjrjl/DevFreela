@@ -1,12 +1,11 @@
 using DevFreela.Core.Entities;
 using DevFreela.Core.Enums;
 
-namespace DevFreela.Core.Repositories
-{
-    public interface IRoleQueryRepository
-    {
+namespace DevFreela.Core.Repositories;
 
-        Task<Role> GetByNameAsync(RoleNameEnum name);
-        
-    }
+public interface IRoleQueryRepository
+{
+
+    Task<Role> GetByNameAsync(RoleNameEnum name);
+    
 }

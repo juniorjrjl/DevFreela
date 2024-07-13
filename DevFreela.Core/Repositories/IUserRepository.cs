@@ -1,12 +1,10 @@
-
 using DevFreela.Core.Entities;
 
-namespace DevFreela.Core.Repositories
+namespace DevFreela.Core.Repositories;
+
+public interface IUserRepository
 {
-    public interface IUserRepository
-    {
 
-        Task<User> AddAsync(User user);
+    Task<User> AddAsync(User user);
 
-    }
 }
