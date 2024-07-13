@@ -14,6 +14,7 @@ public class NewProjectInputModelValidator : AbstractValidator<NewProjectInputMo
 
         RuleFor(p => p.Description)
             .NotEmpty()
+            .WithMessage("Informe a descrição do projeto")
             .NotNull()
             .WithMessage("Informe a descrição do projeto");
 
@@ -23,6 +24,7 @@ public class NewProjectInputModelValidator : AbstractValidator<NewProjectInputMo
 
         RuleFor(p => p.Title)
             .NotEmpty()
+            .WithMessage("Informe o título do projeto")
             .NotNull()
             .WithMessage("Informe o título do projeto");
 
