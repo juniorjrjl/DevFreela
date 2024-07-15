@@ -1,5 +1,6 @@
 using System.Net;
 using System.Net.Mime;
+using System.Security.Authentication;
 using DevFreela.API.Exceptions;
 using DevFreela.API.ViewModel;
 using DevFreela.Core.Exceptions;
@@ -31,30 +32,20 @@ public class ErrorHandlingMiddleware
 
     private static async Task HandleExceptionAsync(HttpContext context, Exception ex)
     {
-        var code = HttpStatusCode.InternalServerError;
-        var codeNumber = (int)code;
-        ErrorViewModel viewModel;
-
-        switch (ex)
+        ErrorViewModel viewModel = ex switch
         {
-            case FieldErrorException fieldError:
-                code = HttpStatusCode.BadRequest;
-                codeNumber = (int) code;
-                viewModel = new ErrorViewModel(codeNumber, fieldError.Message, "Corriga sua requisição e tente novamente", fieldError.Fields);
-                break;
-            case NotFoundException notFound:
-                code = HttpStatusCode.NotFound;
-                codeNumber = (int) code;
-                viewModel = new ErrorViewModel(codeNumber, "Erro na requisição", notFound.Message, null);
-                break;
-            default:
-                viewModel = new ErrorViewModel(codeNumber, "Erro inesperado", "Um erro inesperado aconteceu", null);
-                break;
-        }
-
-        var json = JsonConvert.SerializeObject(viewModel);
+            FieldErrorException fieldError => new ((int)HttpStatusCode.BadRequest, fieldError.Message, "Corriga sua requisição e tente novamente", fieldError.Fields),
+            NotFoundException notFound => new ((int)HttpStatusCode.NotFound, "Erro na requisição", notFound.Message),
+            InvalidCredentialException invalidCredential => new ((int)HttpStatusCode.Unauthorized, "Erro na requisição", invalidCredential.Message),
+            _ => new ((int)HttpStatusCode.InternalServerError, "Erro inesperado", "Um erro inesperado aconteceu"),
+        };
+        var settings = new JsonSerializerSettings
+        {
+            NullValueHandling = NullValueHandling.Ignore,
+        };
+        var json = JsonConvert.SerializeObject(viewModel, settings);
         context.Response.ContentType = MediaTypeNames.Application.Json;
-        context.Response.StatusCode = codeNumber;
+        context.Response.StatusCode = viewModel.Status;
         await context.Response.WriteAsync(json);
     }
 }
