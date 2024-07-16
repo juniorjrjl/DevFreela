@@ -4,7 +4,7 @@ namespace DevFreela.Core.Entities;
 public class UserSkill
 {
 
-    public UserSkill(){}
+    protected UserSkill(){}
 
     public UserSkill(int skillId)
     {

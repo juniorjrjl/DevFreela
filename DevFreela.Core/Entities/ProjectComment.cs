@@ -3,7 +3,7 @@ namespace DevFreela.Core.Entities;
 public class ProjectComment
 {
 
-    public ProjectComment(){}
+    protected ProjectComment(){}
 
     public ProjectComment(string content, int projectId, int userId)
     {

@@ -3,15 +3,10 @@ using DevFreela.Core.Repositories;
 
 namespace DevFreela.Infrastructure.Persistence.Repositories;
 
-public class RoleRepository : IRoleRepository
+public class RoleRepository(DevFreelaDbContext dbContext) : IRoleRepository
 {
 
-    private readonly DevFreelaDbContext _dbContext;
-
-    public RoleRepository(DevFreelaDbContext dbContext)
-    {
-        _dbContext = dbContext;
-    }
+    private readonly DevFreelaDbContext _dbContext = dbContext;
 
     public async Task<Role> AddAsync(Role role)
     {

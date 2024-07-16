@@ -8,7 +8,7 @@ public class FinishProjectCommandFactort : AutoFaker<FinishProjectCommand>
 
     private FinishProjectCommandFactort()
     {
-        RuleFor(p => p.Id, f => f.Random.Int(1, Int32.MaxValue));
+        RuleFor(p => p.Id, f => f.Random.Int(1, int.MaxValue));
     }
 
     public static FinishProjectCommandFactort Instance() => new();

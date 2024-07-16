@@ -4,15 +4,10 @@ using MediatR;
 namespace DevFreela.Application.Commands.DeleteProject;
 
 
-public class DeleteProjectCommandHandler : IRequestHandler<DeleteProjectCommand>
+public class DeleteProjectCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<DeleteProjectCommand>
 {
 
-    private readonly IUnitOfWork _unitOfWork;
-
-    public DeleteProjectCommandHandler(IUnitOfWork unitOfWork)
-    {
-        _unitOfWork = unitOfWork;
-    }
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
 
     public async Task Handle(DeleteProjectCommand command, CancellationToken cancellationToken)
     {

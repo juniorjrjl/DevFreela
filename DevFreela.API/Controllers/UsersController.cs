@@ -7,17 +7,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DevFreela.API.Controllers;
 
+[ApiController]
 [Route("api/users")]
 [Authorize]
-public class UsersController : ControllerBase
+public class UsersController(IUserMapper mapper, IMediator mediator) : ControllerBase
 {
-    private readonly IUserMapper _mapper;
-    private readonly IMediator _mediator;
-    public UsersController(IUserMapper mapper, IMediator mediator)
-    {
-        _mapper = mapper;
-        _mediator = mediator;
-    }
+    private readonly IUserMapper _mapper = mapper;
+    private readonly IMediator _mediator = mediator;
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(int id)

@@ -9,7 +9,7 @@ public class GetProjectByIdQueryFactory :  AutoFaker<GetProjectByIdQuery>
     
     private GetProjectByIdQueryFactory()
     {
-        RuleFor(p => p.Id, f => f.Random.Int(1, Int32.MaxValue));
+        RuleFor(p => p.Id, f => f.Random.Int(1, int.MaxValue));
     }
 
     public static GetProjectByIdQueryFactory Instance() => new();

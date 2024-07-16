@@ -6,15 +6,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DevFreela.Infrastructure.Persistence.Repositories;
 
-public class RoleQueryRepository : IRoleQueryRepository
+public class RoleQueryRepository(DevFreelaDbContext dbContext) : IRoleQueryRepository
 {
 
-    private readonly DevFreelaDbContext _dbContext;
-
-    public RoleQueryRepository(DevFreelaDbContext dbContext)
-    {
-        _dbContext = dbContext;
-    }
+    private readonly DevFreelaDbContext _dbContext = dbContext;
 
     public async Task<Role> GetByNameAsync(RoleNameEnum name)
     {

@@ -2,18 +2,13 @@ using Dapper;
 using DevFreela.Core.Entities;
 using DevFreela.Core.Repositories;
 using Microsoft.Data.SqlClient;
-using Microsoft.Extensions.Configuration;
 
 namespace DevFreela.Infrastructure.Persistence.Repositories;
 
-public class SkillQueryRepository : ISkillQueryRepository
+public class SkillQueryRepository(string connectionString) : ISkillQueryRepository
 {
 
-    private readonly string _connectionString;
-    public SkillQueryRepository(string connectionString)
-    {
-        _connectionString = connectionString ?? throw new ArgumentNullException();
-    }
+    private readonly string _connectionString = connectionString ?? throw new ArgumentNullException();
 
     public async Task<ICollection<Skill>> GetAllAsync()
     {

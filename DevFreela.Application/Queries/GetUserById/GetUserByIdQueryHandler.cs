@@ -4,13 +4,9 @@ using MediatR;
 
 namespace DevFreela.Application.Queries.GetUserById;
 
-public class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, User>
+public class GetUserByIdQueryHandler(IUserQueryRepository userQueryRepository) : IRequestHandler<GetUserByIdQuery, User>
 {
-    private readonly IUserQueryRepository _userQueryRepository;
-    public GetUserByIdQueryHandler(IUserQueryRepository userQueryRepository)
-    {
-        _userQueryRepository = userQueryRepository;
-    }
+    private readonly IUserQueryRepository _userQueryRepository = userQueryRepository;
 
     public async Task<User> Handle(GetUserByIdQuery query, CancellationToken cancellationToken) => await _userQueryRepository.GetByIdAsync(query.Id);
 

@@ -4,15 +4,10 @@ using MediatR;
 namespace DevFreela.Application.Commands.FinishProject;
 
 
-public class FinishProjectCommandHandler : IRequestHandler<FinishProjectCommand>
+public class FinishProjectCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<FinishProjectCommand>
 {
 
-    private readonly IUnitOfWork _unitOfWork;
-
-    public FinishProjectCommandHandler(IUnitOfWork unitOfWork)
-    {
-        _unitOfWork = unitOfWork;
-    }
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
 
     public async Task Handle(FinishProjectCommand command, CancellationToken cancellationToken)
     {

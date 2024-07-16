@@ -1,4 +1,3 @@
-using Bogus;
 using DevFreela.Application.Queries.GetAllProjects;
 using DevFreela.Core.Repositories;
 using DevFreela.UnitTests.Factories.Entities;
@@ -11,8 +10,6 @@ namespace DevFreela.UnitTests.Application.Queries;
 
 public class GetAllProjectsCommandHandlerTest
 {
-
-    private readonly Faker faker = new("pt_BR");
     
     private readonly GetAllProjectsQueryHandler getAllProjectsQueryHandler;
 

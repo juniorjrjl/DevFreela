@@ -8,19 +8,12 @@ using MediatR;
 namespace DevFreela.Application.Commands.CreateUser;
 
 
-public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, User>
+public class CreateUserCommandHandler(IUnitOfWork unitOfWork, IUserMapper mapper, IAuthService authService) : IRequestHandler<CreateUserCommand, User>
 {
 
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly IUserMapper _mapper;
-    private readonly IAuthService _authService;
-
-    public CreateUserCommandHandler(IUnitOfWork unitOfWork, IUserMapper mapper, IAuthService authService)
-    {
-        _unitOfWork = unitOfWork;
-        _mapper = mapper;
-        _authService = authService;
-    }
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
+    private readonly IUserMapper _mapper = mapper;
+    private readonly IAuthService _authService = authService;
 
     public async Task<User> Handle(CreateUserCommand command, CancellationToken cancellationToken)
     {

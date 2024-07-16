@@ -9,7 +9,7 @@ public class GetUserByIdQueryFactory :  AutoFaker<GetUserByIdQuery>
     
     private GetUserByIdQueryFactory()
     {
-        RuleFor(p => p.Id, f => f.Random.Int(1, Int32.MaxValue));
+        RuleFor(p => p.Id, f => f.Random.Int(1, int.MaxValue));
     }
 
     public static GetUserByIdQueryFactory Instance() => new();

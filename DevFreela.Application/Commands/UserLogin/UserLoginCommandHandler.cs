@@ -9,16 +9,10 @@ using MediatR;
 namespace DevFreela.Application.Commands.UserLogin;
 
 
-public class UserLoginCommandHandler : IRequestHandler<UserLoginCommand, CredentialDTO>
+public class UserLoginCommandHandler(IAuthService authService, IUnitOfWork unitOfWork) : IRequestHandler<UserLoginCommand, CredentialDTO>
 {
-    private readonly IAuthService _authService;
-    private readonly IUnitOfWork _unitOfWork;
-
-    public UserLoginCommandHandler(IAuthService authService, IUnitOfWork unitOfWork)
-    {
-        _authService = authService;
-        _unitOfWork = unitOfWork;
-    }
+    private readonly IAuthService _authService = authService;
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
 
     public async Task<CredentialDTO> Handle(UserLoginCommand request, CancellationToken cancellationToken)
     {
@@ -27,6 +21,7 @@ public class UserLoginCommandHandler : IRequestHandler<UserLoginCommand, Credent
         try
         {
             entity = await _unitOfWork.UserQueryRepository.GetByEmailAndPasswordAsync(request.Login, passwordHash);
+            await _unitOfWork.IncludeListAsync(entity, u => u.UsersRoles, u => u.Role);
         }
         catch(NotFoundException ex)
         {

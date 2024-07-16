@@ -5,7 +5,7 @@ namespace DevFreela.Core.Entities;
 public class Role
 {
 
-    public Role(){}
+    protected Role(){}
     public Role(RoleNameEnum name)
     {
         Name = name;

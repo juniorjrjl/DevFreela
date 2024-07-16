@@ -4,14 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DevFreela.Infrastructure.Persistence.Repositories;
 
-public class UserRepository : IUserRepository
+public class UserRepository(DevFreelaDbContext dbContext) : IUserRepository
 {
-    private readonly DevFreelaDbContext _dbContext;
-
-    public UserRepository(DevFreelaDbContext dbContext)
-    {
-        _dbContext = dbContext;
-    }
+    private readonly DevFreelaDbContext _dbContext = dbContext;
 
     public async Task<User> AddAsync(User user)
     {

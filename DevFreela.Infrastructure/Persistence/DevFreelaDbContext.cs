@@ -4,10 +4,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DevFreela.Infrastructure.Persistence;
 
-public class DevFreelaDbContext: DbContext
+public class DevFreelaDbContext(DbContextOptions<DevFreelaDbContext> options) : DbContext(options)
 {
-    public DevFreelaDbContext(DbContextOptions<DevFreelaDbContext> options) : base(options){ }
-
     public DbSet<Project> Projects { get; set; }
 
     public DbSet<User> Users { get; set; }

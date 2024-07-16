@@ -6,15 +6,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DevFreela.Infrastructure.Persistence.Repositories;
 
-public class ProjectQueryRepository : IProjectQueryRepository
+public class ProjectQueryRepository(DevFreelaDbContext dbContext) : IProjectQueryRepository
 {
     private const int PAGE_SIZE = 2;
-    private readonly DevFreelaDbContext _dbContext;
-
-    public ProjectQueryRepository(DevFreelaDbContext dbContext)
-    {
-        _dbContext = dbContext;
-    }
+    private readonly DevFreelaDbContext _dbContext = dbContext;
 
     public async Task<PaginationResult<Project>> GetAllAsync(string? query, int page) 
     {

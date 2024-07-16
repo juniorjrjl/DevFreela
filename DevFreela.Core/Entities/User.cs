@@ -3,7 +3,7 @@ namespace DevFreela.Core.Entities;
 public class User
 {
 
-    public User(){}
+    protected User(){}
     public User(string name, string email, DateTime birthDate, string password, ICollection<UserRole> usersRoles, ICollection<UserSkill> userSkills)
     {
         Name = name;

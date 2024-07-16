@@ -3,14 +3,9 @@ using DevFreela.Core.Repositories;
 
 namespace DevFreela.Infrastructure.Persistence.Repositories;
 
-public class ProjectRepository : IProjectRepository
+public class ProjectRepository(DevFreelaDbContext dbContext) : IProjectRepository
 {
-    private readonly DevFreelaDbContext _dbContext;
-
-    public ProjectRepository(DevFreelaDbContext dbContext)
-    {
-        _dbContext = dbContext;
-    }
+    private readonly DevFreelaDbContext _dbContext = dbContext;
 
     public async Task<Project> AddAsync(Project project)
     {

@@ -3,7 +3,7 @@ namespace DevFreela.Core.Entities;
 
 public class Skill
 {
-    public Skill(){}
+    protected Skill(){}
     public Skill(int id, string description, DateTime createdAt, ICollection<UserSkill> usersSkills)
     {
         Id = id;

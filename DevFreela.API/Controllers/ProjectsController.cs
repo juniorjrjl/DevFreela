@@ -11,22 +11,17 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DevFreela.API.Controllers;
 
+[ApiController]
 [Route("api/projects")]
-public class ProjectsController : ControllerBase
+public class ProjectsController(IProjetcMapper mapper, IMediator mediator) : ControllerBase
 {
 
-    private readonly IProjetcMapper _mapper;
-    private readonly IMediator _mediator;
-
-    public ProjectsController(IProjetcMapper mapper, IMediator mediator)
-    {
-        _mapper = mapper;
-        _mediator = mediator;
-    }
+    private readonly IProjetcMapper _mapper = mapper;
+    private readonly IMediator _mediator = mediator;
 
     [HttpGet]
     [Authorize(Roles = "CLIENT, FREELANCER, ADMIN")]
-    public async Task<IActionResult> Get(GetAllProjectsQuery getAllProjectsQueryquery)
+    public async Task<IActionResult> Get([FromQuery]GetAllProjectsQuery getAllProjectsQueryquery)
     {
         var entity = await _mediator.Send(getAllProjectsQueryquery);
         var viewModel = _mapper.ToPagedViewModel(entity);

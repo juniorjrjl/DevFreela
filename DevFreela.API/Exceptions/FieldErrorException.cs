@@ -2,11 +2,8 @@ using DevFreela.API.ViewModel;
 
 namespace DevFreela.API.Exceptions;
 
-public class FieldErrorException : Exception
+public class FieldErrorException(string message, ICollection<FieldErrorViewModel> fields) : Exception(message)
 {
-    
-    public ICollection<FieldErrorViewModel> Fields { get; private set; }
 
-    public FieldErrorException(string message, ICollection<FieldErrorViewModel> fields) : base(message) => Fields = fields;
-
+    public ICollection<FieldErrorViewModel> Fields { get; private set; } = fields;
 }

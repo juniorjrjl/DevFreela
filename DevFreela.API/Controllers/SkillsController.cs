@@ -6,19 +6,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DevFreela.API.Controllers;
 
+[ApiController]
 [Route("api/skills")]
 [Authorize]
-public class SkillsController : ControllerBase
+public class SkillsController(IMediator mediator, ISkillMapper mapper) : ControllerBase
 {
 
-    private readonly IMediator _mediator;
-    private readonly ISkillMapper _mapper;
-
-    public SkillsController(IMediator mediator, ISkillMapper mapper)
-    {
-        _mediator = mediator;
-        _mapper = mapper;
-    }
+    private readonly IMediator _mediator = mediator;
+    private readonly ISkillMapper _mapper = mapper;
 
     [HttpGet]
     public async Task<IActionResult> Get()

@@ -10,7 +10,7 @@ namespace DevFreela.UnitTests.Core.Entities;
 public class ProjectTest
 {
 
-    private readonly Faker faker = new Faker("pt_BR");
+    private readonly Faker faker = new ("pt_BR");
 
     [Fact]
     public void WhenProjectCreatedThenStartIt()

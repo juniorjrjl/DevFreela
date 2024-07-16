@@ -3,7 +3,7 @@ namespace DevFreela.Core.Entities;
 public class UserRole
 {
 
-    public UserRole(){}
+    protected UserRole(){}
     public UserRole(int roleId)
     {
         RoleId = roleId;

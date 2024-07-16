@@ -6,17 +6,11 @@ using MediatR;
 namespace DevFreela.Application.Commands.CreateProject
 {
 
-    public class CreateProjectCommandHandler : IRequestHandler<CreateProjectCommand, Project>
+    public class CreateProjectCommandHandler(IUnitOfWork unitOfWork, IProjectMapper mapper) : IRequestHandler<CreateProjectCommand, Project>
     {
 
-        private readonly IUnitOfWork _unitOfWork; 
-        private readonly IProjectMapper _mapper;
-
-        public CreateProjectCommandHandler(IUnitOfWork unitOfWork, IProjectMapper mapper)
-        {
-            _unitOfWork = unitOfWork;
-            _mapper = mapper;
-        }
+        private readonly IUnitOfWork _unitOfWork = unitOfWork; 
+        private readonly IProjectMapper _mapper = mapper;
 
         public async Task<Project> Handle(CreateProjectCommand command, CancellationToken cancellationToken)
         {

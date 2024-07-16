@@ -7,7 +7,7 @@ namespace DevFreela.Core.Entities;
 public class Project
 {
 
-    public Project(){}
+    protected Project(){}
     public Project(string title, string description, int clientId, int freelancerId, decimal totalCost)
     {
         Title = title;

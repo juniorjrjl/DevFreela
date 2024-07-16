@@ -5,13 +5,9 @@ using MediatR;
 
 namespace DevFreela.Application.Queries.GetAllProjects;
 
-public class GetAllProjectsQueryHandler : IRequestHandler<GetAllProjectsQuery, PaginationResult<Project>>
+public class GetAllProjectsQueryHandler(IProjectQueryRepository projectQueryRepository) : IRequestHandler<GetAllProjectsQuery, PaginationResult<Project>>
 {
-    private readonly IProjectQueryRepository _projectQueryRepository;
-    public GetAllProjectsQueryHandler(IProjectQueryRepository projectQueryRepository)
-    {
-        _projectQueryRepository = projectQueryRepository;
-    }
+    private readonly IProjectQueryRepository _projectQueryRepository = projectQueryRepository;
 
     public async Task<PaginationResult<Project>> Handle(GetAllProjectsQuery query, CancellationToken cancellationToken) => 
         await _projectQueryRepository.GetAllAsync(query.Query, query.Page);

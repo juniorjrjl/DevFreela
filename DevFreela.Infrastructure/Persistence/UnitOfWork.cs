@@ -5,45 +5,32 @@ using Microsoft.EntityFrameworkCore.Storage;
 
 namespace DevFreela.Infrastructure.Persistence;
 
-public class UnitOfWork : IUnitOfWork, IDisposable
+public class UnitOfWork(DevFreelaDbContext dbContext,
+    IProjectRepository projectRepository,
+    IProjectQueryRepository projectQueryRepository,
+    IUserRepository userRepository,
+    IUserQueryRepository userQueryRepository,
+    ISkillQueryRepository skillQueryRepository,
+    IRoleRepository roleRepository,
+    IRoleQueryRepository roleQueryRepository) : IUnitOfWork, IDisposable
 {
     private IDbContextTransaction? _transaction;
 
-    private readonly DevFreelaDbContext _dbContext;
+    private readonly DevFreelaDbContext _dbContext = dbContext;
 
-    public IProjectRepository ProjectRepository { get; }
+    public IProjectRepository ProjectRepository { get; } = projectRepository;
 
-    public IProjectQueryRepository ProjectQueryRepository { get; }
+    public IProjectQueryRepository ProjectQueryRepository { get; } = projectQueryRepository;
 
-    public IUserRepository UserRepository { get; }
+    public IUserRepository UserRepository { get; } = userRepository;
 
-    public IUserQueryRepository UserQueryRepository { get; }
+    public IUserQueryRepository UserQueryRepository { get; } = userQueryRepository;
 
-    public ISkillQueryRepository SkillQueryRepository { get; }
+    public ISkillQueryRepository SkillQueryRepository { get; } = skillQueryRepository;
 
-    public IRoleRepository RoleRepository { get; }
+    public IRoleRepository RoleRepository { get; } = roleRepository;
 
-    public IRoleQueryRepository RoleQueryRepository { get; }
-
-    public UnitOfWork(DevFreelaDbContext dbContext, 
-        IProjectRepository projectRepository,
-        IProjectQueryRepository projectQueryRepository,
-        IUserRepository userRepository,
-        IUserQueryRepository userQueryRepository,
-        ISkillQueryRepository skillQueryRepository,
-        IRoleRepository roleRepository,
-        IRoleQueryRepository roleQueryRepository)
-    {
-        _dbContext = dbContext;
-        ProjectRepository = projectRepository;
-        ProjectQueryRepository = projectQueryRepository;
-        UserRepository = userRepository;
-        UserQueryRepository = userQueryRepository;
-        SkillQueryRepository = skillQueryRepository;
-        RoleRepository = roleRepository;
-        RoleQueryRepository = roleQueryRepository;
-
-    }
+    public IRoleQueryRepository RoleQueryRepository { get; } = roleQueryRepository;
 
     public async Task<int> CompleteAsync() => await _dbContext.SaveChangesAsync();
 

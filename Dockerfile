@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:6.0
+FROM mcr.microsoft.com/dotnet/sdk:8.0
 
 RUN apt-get update && \
     apt-get install -qq -y --no-install-recommends && \
@@ -16,6 +16,6 @@ COPY . .
 
 RUN dotnet restore DevFreela.API/DevFreela.API.csproj
 
-RUN dotnet tool install --global dotnet-ef --version 7.0.9
+RUN dotnet tool install --global dotnet-ef --version 8.0.7
 
 ENV PATH="$PATH:/root/.dotnet/tools"

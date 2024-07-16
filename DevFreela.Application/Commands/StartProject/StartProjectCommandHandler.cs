@@ -3,15 +3,10 @@ using MediatR;
 
 namespace DevFreela.Application.Commands.StartProject;
 
-public class StartProjectCommandHandler : IRequestHandler<StartProjectCommand>
+public class StartProjectCommandHandler(IUnitOfWork unitOfWork) : IRequestHandler<StartProjectCommand>
 {
 
-    private readonly IUnitOfWork _unitOfWork;
-
-    public StartProjectCommandHandler(IUnitOfWork unitOfWork)
-    {
-        _unitOfWork = unitOfWork;
-    }
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
 
     public async Task Handle(StartProjectCommand command, CancellationToken cancellationToken)
     {

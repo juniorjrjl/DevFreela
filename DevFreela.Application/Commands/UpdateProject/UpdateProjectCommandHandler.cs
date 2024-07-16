@@ -5,17 +5,11 @@ using MediatR;
 
 namespace DevFreela.Application.Commands.UpdateProject;
 
-public class UpdateProjectCommandHandler : IRequestHandler<UpdateProjectCommand, Project>
+public class UpdateProjectCommandHandler(IUnitOfWork unitOfWork, IProjectMapper mapper) : IRequestHandler<UpdateProjectCommand, Project>
 {
 
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly IProjectMapper _mapper;
-
-    public UpdateProjectCommandHandler(IUnitOfWork unitOfWork, IProjectMapper mapper)
-    {
-        _unitOfWork = unitOfWork;
-        _mapper  = mapper;
-    }
+    private readonly IUnitOfWork _unitOfWork = unitOfWork;
+    private readonly IProjectMapper _mapper = mapper;
 
     public async Task<Project> Handle(UpdateProjectCommand command, CancellationToken cancellationToken)
     {
