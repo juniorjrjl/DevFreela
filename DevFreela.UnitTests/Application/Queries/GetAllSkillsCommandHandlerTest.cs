@@ -22,7 +22,7 @@ public class GetAllSkillsCommandHandlerTest
     }
 
     [Fact]
-    public async void HasThreeProjects_Executed_ReturnThreeProjectViewModels()
+    public async Task HasThreeProjects_Executed_ReturnThreeProjectViewModels()
     {
         // Arrange
         var skills = SkillFactory.Instance().Generate(3);

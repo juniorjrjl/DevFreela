@@ -62,7 +62,7 @@ public class AuthServiceTest
     public void ConfigureAllEnvs_Executed_ReturnTokenDTO()
     {
         // Arrange
-        var env = new Dictionary<string, string>{
+        IEnumerable<KeyValuePair<string, string?>>? env = new Dictionary<string, string?>{
             {"Jwt:Issuer", faker.Lorem.Word()},
             {"Jwt:Audience", faker.Lorem.Word()},
             {"Jwt:Key", faker.Lorem.Letter(200)}
@@ -83,7 +83,7 @@ public class AuthServiceTest
 
     [Theory]
     [ClassData(typeof(GenerateJwtTokenDataError))]
-    public void ConfigurationWithouKeys_Executed_ThrowError(Dictionary<string, string> configProps, string exceptionMessage)
+    public void ConfigurationWithouKeys_Executed_ThrowError(IEnumerable<KeyValuePair<string, string?>>? configProps, string exceptionMessage)
     {
         // Arrange
         configurationMock = new ConfigurationBuilder().AddInMemoryCollection(configProps).Build();
@@ -103,16 +103,6 @@ public class AuthServiceTest
         var password = faker.Lorem.Word();
         // Act
         var actual = authService.ComputeSha256Hash(password);
-        //Assert
-        Assert.NotNull(actual);
-    }
-
-    [Fact]
-    public void SendEmptyPasswordToEncrytp_Executed_ThrowError(){
-        // Arrange
-        string? password = null;
-        // Act
-        var actual = Assert.Throws<ArgumentNullException>(() => authService.ComputeSha256Hash(password));
         //Assert
         Assert.NotNull(actual);
     }

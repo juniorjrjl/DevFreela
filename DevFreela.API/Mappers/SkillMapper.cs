@@ -5,7 +5,7 @@ namespace DevFreela.API.Mappers;
 
 public class SkillMapper : ISkillMapper
 {
-    public ICollection<SkillViewModel> ToViewModel(ICollection<Skill> entities) => entities.Select(e => ToViewModel(e)).ToList();
+    public ICollection<SkillViewModel> ToViewModel(ICollection<Skill> entities) => entities.Select(ToViewModel).ToList();
 
     private static SkillViewModel ToViewModel(Skill entity) => new (entity.Id, entity.Description);
 

@@ -34,7 +34,7 @@ public class UpdateProjectCommandHandlerTest
     }
 
     [Fact]
-    public async void InputDataOk_Executed_Deleted()
+    public async Task InputDataOk_Executed_Deleted()
     {
         // Arrenge
         var updateProjectCommand = UpdateProjectCommandFactort.Instance().Generate();

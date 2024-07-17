@@ -31,7 +31,7 @@ public class CreateProjectCommentCommandHandlerTest
     }
 
     [Fact]
-    public async void InputDataIsOk_Executed_ReturnProject()
+    public async Task InputDataIsOk_Executed_ReturnProject()
     {
         // Arrenge
         var createProjectCommentCommand = CreateProjectCommentCommandFactory.Instance().Generate();
@@ -54,7 +54,7 @@ public class CreateProjectCommentCommandHandlerTest
     }
 
     [Fact]
-    public async void InputDataReferANonStoredProject_Executed_ThrowError()
+    public async Task InputDataReferANonStoredProject_Executed_ThrowError()
     {
         // Arrenge
         var createProjectCommentCommand = CreateProjectCommentCommandFactory.Instance().Generate();

@@ -13,10 +13,10 @@ namespace DevFreela.API.Controllers;
 
 [ApiController]
 [Route("api/projects")]
-public class ProjectsController(IProjetcMapper mapper, IMediator mediator) : ControllerBase
+public class ProjectsController(IProjectMapper mapper, IMediator mediator) : ControllerBase
 {
 
-    private readonly IProjetcMapper _mapper = mapper;
+    private readonly IProjectMapper _mapper = mapper;
     private readonly IMediator _mediator = mediator;
 
     [HttpGet]
@@ -41,7 +41,7 @@ public class ProjectsController(IProjetcMapper mapper, IMediator mediator) : Con
     [Authorize(Roles = "CLIENT, ADMIN")]
     public async Task<IActionResult> Post([FromBody] NewProjectInputModel inputModel)
     {
-        var command = _mapper.ToInputModel(inputModel);
+        var command = _mapper.ToCommand(inputModel);
         var saved = await _mediator.Send(command);
         var viewModel = _mapper.ToCreatedViewModel(saved);
         return Created(nameof(GetById), viewModel);

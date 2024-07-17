@@ -37,7 +37,7 @@ public class CreateUserCommandHandlerTest
     }
 
     [Fact]
-    public async void InputDataIsOk_Executed_ReturnProject()
+    public async Task InputDataIsOk_Executed_ReturnProject()
     {
         // Arrenge
         var createUserCommand = CreateUserCommandFactory.Instance().Generate();
@@ -66,10 +66,11 @@ public class CreateUserCommandHandlerTest
     }
 
     [Fact]
-    public async void InputNonStoredRole_Executed_ThrowError()
+    public async Task InputNonStoredRole_Executed_ThrowError()
     {
         // Arrenge
         var createUserCommand = CreateUserCommandFactory.Instance().Generate();
+        ArgumentNullException.ThrowIfNull(createUserCommand.SkillsId, "Factory must generate SkillsId");
         var user = UserFactory.Instance()
             .WithUsersRoles(createUserCommand.Roles.Select(r => new UserRole(faker.Random.Int(1, int.MaxValue))).ToList())
             .WithUsersSkills(createUserCommand.SkillsId.Select(s => new UserSkill(s)).ToList())

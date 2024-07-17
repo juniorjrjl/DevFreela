@@ -15,7 +15,7 @@ public static class Extension
             .AddAuthenticationConfig(builder);
 
     private static IServiceCollection AddControllerMappers(this IServiceCollection services)
-        => services.AddScoped<IProjetcMapper, ProjetcMapper>()
+        => services.AddScoped<IProjectMapper, ProjectMapper>()
             .AddScoped<IUserMapper, UserMapper>()
             .AddScoped<ISkillMapper, SkillMapper>();
 

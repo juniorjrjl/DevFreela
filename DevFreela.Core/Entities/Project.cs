@@ -21,7 +21,7 @@ public class Project
 
         CreatedAt = DateTime.Now;
         Status = ProjectStatusEnum.CREATED;
-        Comments = new List<ProjectComment>();
+        Comments = [];
     }
     public int Id { get; private set; }
 

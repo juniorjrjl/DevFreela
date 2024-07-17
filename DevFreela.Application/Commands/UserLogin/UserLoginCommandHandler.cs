@@ -27,7 +27,9 @@ public class UserLoginCommandHandler(IAuthService authService, IUnitOfWork unitO
         {
             throw new InvalidCredentialException("Usuário e/ou senha inválidos", ex);
         }
-        var roles = entity.UsersRoles.Select(r => r.Role.Name).ToList();
+        var roles = entity.UsersRoles.Where(r => r.Role is not null)
+            .Select(r => r.Role!.Name)
+            .ToList();
         return _authService.GenerateJwtToken(entity.Email, roles);
     }
 }

@@ -26,7 +26,7 @@ public class CreateCommentCommandHandlerTest
     }
 
     [Fact]
-    public async void InputDataIsOk_Executed_ReturnProject()
+    public async Task InputDataIsOk_Executed_ReturnProject()
     {
         // Arrenge
         var createProjectCommand = CreateProjectCommandFactory.Instance().Generate();

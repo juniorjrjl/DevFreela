@@ -6,13 +6,17 @@ namespace DevFreela.UnitTests.Factories.Entities;
 public abstract class PaginationResultFactory<T> : Faker<PaginationResult<T>>
 {
     
-    protected PaginationResultFactory()
+    protected PaginationResultFactory(ICollection<T> data)
     {
         Locale = "pt_BR";
-        RuleFor(p => p.Page, f=> f.Random.Number(1, int.MaxValue));
-        RuleFor(p => p.TotalPages, f=> f.Random.Number(1, int.MaxValue));
-        RuleFor(p => p.PageSize, f=> f.Random.Number(1, int.MaxValue));
-        RuleFor(p => p.ItemCount, f=> f.Random.Number(1, int.MaxValue));
+        CustomInstantiator(p => new 
+            (
+                p.Random.Number(1, int.MaxValue),
+                p.Random.Number(1, int.MaxValue),
+                p.Random.Number(1, int.MaxValue),
+                p.Random.Number(1, int.MaxValue),
+                data
+            ));
     }
 
 }

@@ -4,7 +4,7 @@ public class PaginationResult<T>
 
     public PaginationResult() { }
 
-    public PaginationResult(int page, int totalPages, int pageSize, int itemCount, List<T> data)
+    public PaginationResult(int page, int totalPages, int pageSize, int itemCount, ICollection<T> data)
     {
         Page = page;
         TotalPages = totalPages;
@@ -13,14 +13,14 @@ public class PaginationResult<T>
         Data = data;
     }
 
-    public int Page { get; set; }
+    public int Page { get; private set; }
     
-    public int TotalPages { get; set; }
+    public int TotalPages { get; private set; }
     
-    public int PageSize { get; set; }
+    public int PageSize { get; private set; }
 
-    public int ItemCount { get; set; }
+    public int ItemCount { get; private set; }
 
-    public List<T> Data { get; set; } = new List<T>();
+    public ICollection<T> Data { get; private set; } = [];
     
 }

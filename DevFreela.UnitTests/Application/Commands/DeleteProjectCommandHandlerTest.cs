@@ -34,7 +34,7 @@ public class DeleteProjectCommandHandlerTest
     [InlineData(ProjectStatusEnum.CREATED)]
     [InlineData(ProjectStatusEnum.IN_PROGRESS)]
     [InlineData(ProjectStatusEnum.SUSPENDED)]
-    public async void InputDataOk_Executed_Deleted(ProjectStatusEnum status)
+    public async Task InputDataOk_Executed_Deleted(ProjectStatusEnum status)
     {
         // Arrenge
         var deleteProjectCommand = DeleteProjectCommandFactort.Instance().Generate();

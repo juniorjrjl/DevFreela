@@ -24,7 +24,7 @@ public class GetProjectByIdQueryHandlerTest
     }
 
     [Fact]
-    public async void HasStoredProject_Executed_ReturnIt()
+    public async Task HasStoredProject_Executed_ReturnIt()
     {
         // Arrange
         var project = ProjectFactory.Instance().Generate();

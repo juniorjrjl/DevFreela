@@ -25,7 +25,7 @@ public class GetUserByIdQueryHandlerTest
     }
 
     [Fact]
-    public async void HasStoredProject_Executed_ReturnIt()
+    public async Task HasStoredProject_Executed_ReturnIt()
     {
         // Arrange
         var user = UserFactory.Instance().Generate();

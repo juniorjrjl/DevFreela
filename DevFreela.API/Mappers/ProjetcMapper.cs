@@ -8,9 +8,9 @@ using DevFreela.Core.Persistence.model;
 
 namespace DevFreela.API.Mappers;
 
-public class ProjetcMapper : IProjetcMapper
+public class ProjectMapper : IProjectMapper
 {
-    public CreateProjectCommand ToInputModel(NewProjectInputModel inputModel) => 
+    public CreateProjectCommand ToCommand(NewProjectInputModel inputModel) => 
         new 
         (
             inputModel.Title, 
@@ -66,7 +66,7 @@ public class ProjetcMapper : IProjetcMapper
             entity.TotalPages,
             entity.PageSize,
             entity.ItemCount,
-            entity.Data.Select(p => ToListViewMode(p)).ToList()
+            entity.Data.Select(ToListViewMode).ToList()
         );
 
     public UpdatedProjectViewModel ToViewModel(Project entity) => 

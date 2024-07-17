@@ -31,7 +31,7 @@ public class FinishProjectCommandHandlerTest
     }
 
     [Fact]
-    public async void InputDataOk_Executed_Deleted()
+    public async Task InputDataOk_Executed_Deleted()
     {
         // Arrenge
         var finishProjectCommand = FinishProjectCommandFactort.Instance().Generate();

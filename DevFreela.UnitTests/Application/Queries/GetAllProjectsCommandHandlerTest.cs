@@ -22,7 +22,7 @@ public class GetAllProjectsCommandHandlerTest
     }
 
     [Fact]
-    public async void HasThreeProjects_Executed_ReturnThreeProjectViewModels()
+    public async Task HasThreeProjects_Executed_ReturnThreeProjectViewModels()
     {
         // Arrange
         var projects = PaginationResultProjectFactory.Instance().Generate();

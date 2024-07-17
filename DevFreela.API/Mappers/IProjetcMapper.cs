@@ -8,14 +8,14 @@ using DevFreela.Core.Persistence.model;
 
 namespace DevFreela.API.Mappers;
 
-public interface IProjetcMapper
+public interface IProjectMapper
 {
     
     PaginationResult<ProjectViewModel> ToPagedViewModel(PaginationResult<Project> entity);
 
     ProjectDetailsViewModel ToDetailsViewModel(Project entity);
 
-    CreateProjectCommand ToInputModel(NewProjectInputModel inputModel);
+    CreateProjectCommand ToCommand(NewProjectInputModel inputModel);
 
     CreatedProjectViewModel ToCreatedViewModel(Project entity);
 
