@@ -9,47 +9,46 @@ namespace DevFreela.API;
 public static class Extension
 {
     
-    public static IServiceCollection AddControllerMappers(this IServiceCollection services)
-    {
-        services.AddScoped<IProjetcMapper, ProjetcMapper>();
-        services.AddScoped<IUserMapper, UserMapper>();
-        services.AddScoped<ISkillMapper, SkillMapper>();
-        return services;
-    }
+    public static IServiceCollection AddAPI(this IServiceCollection services, WebApplicationBuilder builder)
+        =>services.AddControllerMappers()
+            .AddSwaggerConfig()
+            .AddAuthenticationConfig(builder);
 
-    public static IServiceCollection AddSwaggerConfig(this IServiceCollection services)
-    {
-        services.AddSwaggerGen(opt =>{
-            opt.SwaggerDoc("v1", new OpenApiInfo { Title= "DevFreela.API", Version = "v1" });
-            opt.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-            {
-                Name = "Authorization",
-                Type = SecuritySchemeType.ApiKey,
-                Scheme = "Bearer",
-                BearerFormat = "JWT",
-                In = ParameterLocation.Header,
-                Description = "JWT Authorization header usando o esquema Bearer."
-            });
+    private static IServiceCollection AddControllerMappers(this IServiceCollection services)
+        => services.AddScoped<IProjetcMapper, ProjetcMapper>()
+            .AddScoped<IUserMapper, UserMapper>()
+            .AddScoped<ISkillMapper, SkillMapper>();
 
-            opt.AddSecurityRequirement(new OpenApiSecurityRequirement
-            {
+    private static IServiceCollection AddSwaggerConfig(this IServiceCollection services)
+        => services.AddSwaggerGen(opt =>{
+                opt.SwaggerDoc("v1", new OpenApiInfo { Title= "DevFreela.API", Version = "v1" });
+                opt.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
-                    new OpenApiSecurityScheme
-                    {
-                        Reference = new OpenApiReference
-                        {
-                            Type = ReferenceType.SecurityScheme,
-                            Id = "Bearer"
-                        }
-                    },
-                    Array.Empty<string>()
-                }
-            });
-        });
-        return services;
-    }
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Description = "JWT Authorization header usando o esquema Bearer."
+                });
 
-    public static IServiceCollection AddAuthenticationConfig(this IServiceCollection services, WebApplicationBuilder builder)
+                opt.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        Array.Empty<string>()
+                    }
+                });
+            });
+
+    private static IServiceCollection AddAuthenticationConfig(this IServiceCollection services, WebApplicationBuilder builder)
     {
         services.AddAuthentication(opt =>{
             opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -58,6 +57,8 @@ public static class Extension
         })
             .AddJwtBearer(opt =>
             {
+                var jwtKey = builder.Configuration["Jwt:Key"];
+                ArgumentNullException.ThrowIfNull(jwtKey);
                 opt.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = true,
@@ -67,7 +68,7 @@ public static class Extension
 
                     ValidIssuer = builder.Configuration["Jwt:Issuer"],
                     ValidAudience = builder.Configuration["Jwt:Audience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
                 };
         });
         return services;

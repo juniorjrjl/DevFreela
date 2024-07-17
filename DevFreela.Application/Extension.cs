@@ -7,18 +7,15 @@ namespace DevFreela.Application;
 public static class Extension
 {
     
-    public static IServiceCollection AddApplicationMappers(this IServiceCollection services)
-    {
-        services.AddScoped<IProjectMapper, ProjectMapper>();
-        services.AddScoped<IProjectCommentMapper, ProjectCommentMapper>();
-        services.AddScoped<IUserMapper, UserMapper>();
-        return services;
-    }
+    public static IServiceCollection AddApplication(this IServiceCollection services)
+        => services.AddMappers()
+            .AddCommands();
+    private static IServiceCollection AddMappers(this IServiceCollection services)
+        => services.AddScoped<IProjectMapper, ProjectMapper>()
+            .AddScoped<IProjectCommentMapper, ProjectCommentMapper>()
+            .AddScoped<IUserMapper, UserMapper>();
 
-    public static IServiceCollection AddCommands(this IServiceCollection services)
-    {
-        services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateProjectCommand).Assembly));
-        return services;
-    }
+    private static IServiceCollection AddCommands(this IServiceCollection services)
+        => services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateProjectCommand).Assembly));
 
 }

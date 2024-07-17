@@ -11,7 +11,11 @@ namespace DevFreela.Infrastructure;
 public static class Extension
 {
     
-    public static IServiceCollection AddRepositories(this IServiceCollection service, string connectionString)
+    public static IServiceCollection AddInfraStructure(this IServiceCollection service, string connectionString)
+        => service.AddRepositories(connectionString)
+            .AddServices()
+            .AddDBContext(connectionString);
+    private static IServiceCollection AddRepositories(this IServiceCollection service, string connectionString)
     {
         service.AddScoped<IProjectQueryRepository, ProjectQueryRepository>();
         service.AddScoped<IProjectRepository, ProjectRepository>();
@@ -23,14 +27,14 @@ public static class Extension
         return service;
     }
 
-    public static IServiceCollection AddServices(this IServiceCollection service)
+    private static IServiceCollection AddServices(this IServiceCollection service)
     {
         service.AddScoped<IAuthService, AuthService>();
         service.AddScoped<IUnitOfWork, UnitOfWork>();
         return service;
     }
 
-    public static IServiceCollection AddDBContext(this IServiceCollection service, string connectionString)
+    private static IServiceCollection AddDBContext(this IServiceCollection service, string connectionString)
     {
         service.AddDbContext<DevFreelaDbContext>(o=> o.UseSqlServer(connectionString));
         return service;

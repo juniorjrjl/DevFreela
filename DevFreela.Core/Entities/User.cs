@@ -3,7 +3,10 @@ namespace DevFreela.Core.Entities;
 public class User
 {
 
+    #pragma warning disable CS8618
     protected User(){}
+    #pragma warning restore CS8618
+
     public User(string name, string email, DateTime birthDate, string password, ICollection<UserRole> usersRoles, ICollection<UserSkill> userSkills)
     {
         Name = name;
@@ -15,8 +18,8 @@ public class User
         UsersRoles = usersRoles;
         UsersSkills = userSkills;
         
-        OwnedProjects = new List<Project>();
-        FreelancerProjects = new List<Project>();
+        OwnedProjects = [];
+        FreelancerProjects = [];
     }
 
     public int Id { get; private set; }
@@ -41,6 +44,6 @@ public class User
 
     public virtual ICollection<Project> FreelancerProjects { get; private set; }
 
-    public virtual ICollection<ProjectComment> Comments { get; private set; }
+    public virtual ICollection<ProjectComment>? Comments { get; private set; }
 
 }

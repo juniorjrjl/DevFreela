@@ -14,6 +14,6 @@ public class Role
     public int Id { get; private set; }
     public RoleNameEnum Name { get; private set; }
 
-    public virtual ICollection<UserRole> UsersRoles { get; private set; }
+    public virtual ICollection<UserRole>? UsersRoles { get; private set; }
     
 }

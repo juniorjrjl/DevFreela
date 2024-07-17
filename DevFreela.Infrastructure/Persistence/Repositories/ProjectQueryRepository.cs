@@ -1,4 +1,5 @@
 using DevFreela.Core.Entities;
+using DevFreela.Core.Enums;
 using DevFreela.Core.Exceptions;
 using DevFreela.Core.Persistence.model;
 using DevFreela.Core.Repositories;
@@ -14,7 +15,7 @@ public class ProjectQueryRepository(DevFreelaDbContext dbContext) : IProjectQuer
     public async Task<PaginationResult<Project>> GetAllAsync(string? query, int page) 
     {
         
-        IQueryable<Project> projects = _dbContext.Projects;
+        IQueryable<Project> projects = _dbContext.Projects.Where(p => p.Status != ProjectStatusEnum.CANCELED);
         if (!string.IsNullOrWhiteSpace(query))
         {
             projects = projects.Where(p => p.Title.Contains(query) || p.Description.Contains(query));
@@ -26,7 +27,7 @@ public class ProjectQueryRepository(DevFreelaDbContext dbContext) : IProjectQuer
     {
         try
         {
-            return await _dbContext.Projects.SingleAsync(p => p.Id == id);
+            return await _dbContext.Projects.SingleAsync(p => p.Id == id && p.Status != ProjectStatusEnum.CANCELED);
         }
         catch (InvalidOperationException ex)
         {

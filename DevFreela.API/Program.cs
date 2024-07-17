@@ -21,18 +21,12 @@ builder.Services.AddControllers(opt => opt.Filters.Add(typeof(ConstraintValidato
     });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddAPI(builder);
+builder.Services.AddApplication();
 builder.Services.AddSwaggerGen();
-
 var connectionString = Environment.GetEnvironmentVariable("ConnectionStrings_DevFreelaCs");
 ArgumentNullException.ThrowIfNull(connectionString);
-builder.Services.AddDBContext(connectionString);
-builder.Services.AddControllerMappers();
-builder.Services.AddApplicationMappers();
-builder.Services.AddCommands();
-builder.Services.AddRepositories(connectionString);
-builder.Services.AddServices();
-builder.Services.AddSwaggerConfig();
-builder.Services.AddAuthenticationConfig(builder);
+builder.Services.AddInfraStructure(connectionString);
 
 var app = builder.Build();
 

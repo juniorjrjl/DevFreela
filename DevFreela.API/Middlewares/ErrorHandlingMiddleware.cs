@@ -32,6 +32,7 @@ public class ErrorHandlingMiddleware(RequestDelegate next)
             FieldErrorException fieldError => new ((int)HttpStatusCode.BadRequest, fieldError.Message, "Corriga sua requisição e tente novamente", fieldError.Fields),
             NotFoundException notFound => new ((int)HttpStatusCode.NotFound, "Erro na requisição", notFound.Message),
             InvalidCredentialException invalidCredential => new ((int)HttpStatusCode.Unauthorized, "Erro na requisição", invalidCredential.Message),
+            ProjectStatusException projectStatus => new ((int)HttpStatusCode.BadRequest, "Erro na requisição", projectStatus.Message),
             _ => new ((int)HttpStatusCode.InternalServerError, "Erro inesperado", "Um erro inesperado aconteceu"),
         };
         var settings = new JsonSerializerSettings

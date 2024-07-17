@@ -7,7 +7,10 @@ namespace DevFreela.Core.Entities;
 public class Project
 {
 
+    #pragma warning disable CS8618
     protected Project(){}
+    #pragma warning restore CS8618
+    
     public Project(string title, string description, int clientId, int freelancerId, decimal totalCost)
     {
         Title = title;
@@ -27,10 +30,10 @@ public class Project
     public string Description { get; private set; }
 
     public int ClientId { get; private set; }
-    public User Client { get; private set; }
+    public User? Client { get; private set; }
 
     public int FreelancerId { get; private set; }
-    public User Freelancer { get; private set; }
+    public User? Freelancer { get; private set; }
 
     public decimal TotalCost { get; private set; }
 

@@ -13,10 +13,10 @@ public class UserSkill
     
     public int UserId { get; private set; }
 
-    public virtual User User { get; private set; }
+    public virtual User? User { get; private set; }
 
     public int SkillId { get; set;}
 
-    public virtual Skill Skill { get; private set; }
+    public virtual Skill? Skill { get; private set; }
     
 }
