@@ -1,3 +1,3 @@
-namespace DevFreela.API.InputModel;
+namespace DevFreela.API.ViewModel;
 
 public record CredentialViewModel(string Token, long ExpiresIn);

@@ -9,8 +9,8 @@ namespace DevFreela.API.Mappers;
 
 public interface IUserMapper
 {
-    CreateUserCommand ToCommand(NewUserInputModel command);
-    UserLoginCommand ToCommand(LoginInputModel command);
+    CreateUserCommand ToCommand(NewUserInputModel inputModel);
+    UserLoginCommand ToCommand(LoginInputModel inputModel);
     UserViewModel ToGetByIdViewModel(User entity);
     SavedUserViewModel ToPostViewModel(User entity);
     CredentialViewModel ToLoginViewModel(CredentialDTO dto);

@@ -9,21 +9,22 @@ namespace DevFreela.API.Mappers;
 
 public class UserMapper : IUserMapper
 {
-    public CreateUserCommand ToCommand(NewUserInputModel command) => 
-        new (
-            command.Name,
-            command.Email,
-            command.BirthDate,
-            command.Password,
-            command.Roles,
-            command.SkillsId
-        );
-
-    public UserLoginCommand ToCommand(LoginInputModel command) => 
+    public CreateUserCommand ToCommand(NewUserInputModel inputModel) => 
         new 
         (
-            command.Login, 
-            command.Password
+            inputModel.Name,
+            inputModel.Email,
+            inputModel.BirthDate,
+            inputModel.Password,
+            inputModel.Roles,
+            inputModel.SkillsId
+        );
+
+    public UserLoginCommand ToCommand(LoginInputModel inputModel) => 
+        new 
+        (
+            inputModel.Login, 
+            inputModel.Password
         );
 
     public UserViewModel ToGetByIdViewModel(User entity) => 
@@ -43,7 +44,8 @@ public class UserMapper : IUserMapper
         );
 
     public SavedUserViewModel ToPostViewModel(User entity) => 
-        new (
+        new 
+        (
             entity.Id,
             entity.Name,
             entity.Email,
