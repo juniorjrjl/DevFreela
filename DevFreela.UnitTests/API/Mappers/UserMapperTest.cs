@@ -68,8 +68,12 @@ public class UserMapperTest
     public void ReceivedUserEntity_Executed_ReturnSavedUserViewModel()
     {
         // Arrenge
+        var entity = UserFactory.Instance().Generate();
         // Act
+        var actual = mapper.ToPostViewModel(entity);
         // Assert
+        ICollection<string> toInclude = ["Id", "Name", "Email", "BirthDate", "Skills", "Roles"];
+        actual.Should().BeEquivalentTo(entity, opt => opt.Including(a => toInclude.Contains(a.Path)));  
     }
 
 }
