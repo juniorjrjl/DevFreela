@@ -36,4 +36,11 @@ public interface IUnitOfWork
     where TProperty : 
     class where TEntity : class;
 
+    Task IncludeAsync<TEntity, TProperty>(
+        TEntity entity, 
+        Expression<Func<TEntity, TProperty?>> propertyExpression
+    )
+    where TProperty : class
+    where TEntity : class;
+
 }

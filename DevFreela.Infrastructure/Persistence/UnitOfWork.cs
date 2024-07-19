@@ -79,4 +79,11 @@ public class UnitOfWork(DevFreelaDbContext dbContext,
         where TEntity : class
     => await _dbContext.Entry(entity).Collection(propertyExpression).Query().Include(navigationPropertyPath).LoadAsync();
 
+    public async Task IncludeAsync<TEntity, TProperty>(
+        TEntity entity, 
+        Expression<Func<TEntity, TProperty?>> propertyExpression
+    )
+        where TProperty : class
+        where TEntity : class
+    => await _dbContext.Entry(entity).Reference(propertyExpression).LoadAsync();
 }

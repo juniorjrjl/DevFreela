@@ -24,7 +24,7 @@ builder.Services.AddApplication();
 builder.Services.AddSwaggerGen();
 var connectionString = Environment.GetEnvironmentVariable("ConnectionStrings_DevFreelaCs");
 ArgumentNullException.ThrowIfNull(connectionString);
-builder.Services.AddInfraStructure(connectionString);
+builder.Services.AddInfraStructure(connectionString, builder.Configuration);
 
 var app = builder.Build();
 
