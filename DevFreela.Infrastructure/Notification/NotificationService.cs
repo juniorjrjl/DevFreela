@@ -25,7 +25,6 @@ public class NotificationService(MailConfig config) : INotificationService
         //await client.AuthenticateAsync(_config.FromEmail, _config.Password);
         await client.SendAsync(message);
         await client.DisconnectAsync(true);
-
     }
     
 }

@@ -11,7 +11,7 @@ public class ProjectCreatedNotificationHandler(INotificationService notification
     public async Task Handle(ProjectCreatedNotification notification, CancellationToken cancellationToken)
     {
         var subject = $"Projeto {notification.Title} criado";
-        var content = $"O Projeto {notification.Title} foi criado no DevFreela";
+        var content = $"O Projeto {notification.Title} foi criado no DevFreela com valor de R${notification.TotalCost}";
         ICollection<MailRecipient> recipients = 
         [
             new(notification.ClientEmail, notification.ClientName),
